@@ -1,0 +1,8 @@
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\bin\Debug\rubik.dll
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\bin\Debug\rubik.pdb
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.csprojAssemblyReference.cache
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.AssemblyInfoInputs.cache
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.AssemblyInfo.cs
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.csproj.CoreCompileInputs.cache
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.dll
+C:\Users\scott\Documents\godotProjects\rubik\.mono\temp\obj\Debug\rubik.pdb
