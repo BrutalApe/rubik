@@ -181,7 +181,7 @@ public class Piece : Area
 
             case side_left:
                 new_rot.z = -90f;
-                new_loc.z = 1;
+                new_loc.x = 1;
                 new_loc.y = 1;
                 break;
 

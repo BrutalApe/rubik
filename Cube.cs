@@ -9,7 +9,7 @@ public class Cube : Spatial
 
     Godot.Collections.Array piece_list = new Godot.Collections.Array();
     
-    public float spacing_constant = 2.3f;
+    public float space_constant = 0;
 
     Vector3 x_axis = new Vector3(1, 0, 0);
     Vector3 y_axis = new Vector3(0, 1, 0);
@@ -21,8 +21,10 @@ public class Cube : Spatial
 
     }
 
-    public void makeCube(int size)
+    public void makeCube(int size, float spacing_constant)
     {
+        space_constant = spacing_constant;
+
         for (var i = 1; i<=size; i++)
         {
             for (var j = 1; j<=size; j++)
@@ -46,9 +48,9 @@ public class Cube : Spatial
 
                     //GD.Print(test_loc);
 
-                    new_loc.x = spacing_constant*i;
-                    new_loc.y = spacing_constant*j;
-                    new_loc.z = spacing_constant*k;
+                    new_loc.x = space_constant*i;
+                    new_loc.y = space_constant*j;
+                    new_loc.z = space_constant*k;
                     piece.Translate(new_loc);
 
 
@@ -181,7 +183,7 @@ public class Cube : Spatial
         GD.Print(spin_piece_list);
         
         // rotation point always center of cube
-        float cent_pnt = spacing_constant*(size-1);
+        float cent_pnt = space_constant*(size-1);
         Vector3 point = new Vector3(cent_pnt, cent_pnt+1, cent_pnt);
         
         float angle = (float)Math.PI;

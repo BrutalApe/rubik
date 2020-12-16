@@ -10,6 +10,8 @@ public class Main : Node
     private Camera cameraMain;
     private Spatial cube;
 
+    public float spacing_constant = 2.3f;
+
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
@@ -26,7 +28,7 @@ public class Main : Node
         
         Vector3 edge_select = new Vector3(0, 0, 1);
 
-        twistCube(cube, cube_size, edge_select, 1, 1);
+        //twistCube(cube, cube_size, edge_select, 1, 1);
     }
 
     public Camera addCamera(int cube_size)
@@ -57,7 +59,7 @@ public class Main : Node
     {
         new_cube = (PackedScene)ResourceLoader.Load("res://Cube.tscn");
         Spatial cube = (Spatial)new_cube.Instance();
-        cube.Call("makeCube", cube_size);
+        cube.Call("makeCube", cube_size, spacing_constant);
         AddChild(cube);
 
         return cube;
@@ -70,21 +72,21 @@ public class Main : Node
 
     public void rotateCamera_x(int key_x)
     {
-        cube.RotateX(key_x/(float)Math.PI/100);
+        cube.RotateX(key_x/(float)Math.PI/10);
 
         return;
     }
 
     public void rotateCamera_y(int key_y)
     {
-        cube.RotateY(key_y/(float)Math.PI/100);
+        cube.RotateY(key_y/(float)Math.PI/10);
 
         return;
     }
 
     public void rotateCamera_z(int key_z)
     {
-        cube.RotateZ(key_z/(float)Math.PI/100);
+        cube.RotateZ(key_z/(float)Math.PI/10);
 
         return;
     }
@@ -93,20 +95,20 @@ public class Main : Node
     {
         if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
         {
-            if ((KeyList)keyEvent.Scancode == KeyList.A)
+            if ((KeyList)keyEvent.Scancode == KeyList.W)
             {
                 rotateCamera_x(1);
             }
-            if ((KeyList)keyEvent.Scancode == KeyList.D)
+            if ((KeyList)keyEvent.Scancode == KeyList.S)
             {
                 rotateCamera_x(-1);
             }
             
-            if ((KeyList)keyEvent.Scancode == KeyList.S)
+            if ((KeyList)keyEvent.Scancode == KeyList.A)
             {
                 rotateCamera_y(1);
             }
-            if ((KeyList)keyEvent.Scancode == KeyList.W)
+            if ((KeyList)keyEvent.Scancode == KeyList.D)
             {
                 rotateCamera_y(-1);
             }
