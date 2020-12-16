@@ -5,9 +5,11 @@ public class Main : Node
 {
 
     PackedScene new_cube;
+    PackedScene new_hud;
 
     private Camera cameraMain;
     private Spatial cube;
+    private CanvasLayer HUD;
 
     public float spacing_constant = 0;
     public int cube_size = 0;
@@ -16,28 +18,33 @@ public class Main : Node
     Vector3 y_axis = new Vector3(0, 1, 0);
     Vector3 z_axis = new Vector3(0, 0, 1);
 
-    public void drawAxes()
-    {
-
-    }
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
         // initializiation
-        cube_size = 4;
+        cube_size = 3;
         spacing_constant = 2.3f;
 
         cube = addCube(cube_size);        
         cameraMain = addCamera(cube_size);
+        HUD = addHUD();
 
         // functions
         
         Vector3 edge_select = new Vector3(0, 0, 1);
 
         //twistCube(cube, cube_size, edge_select, 1, 1);
+    }
+
+    public CanvasLayer addHUD()
+    {
+        new_hud = (PackedScene)ResourceLoader.Load("res://HUD.tscn");
+        CanvasLayer hud = (CanvasLayer)new_hud.Instance();
+        AddChild(hud);
+
+        return hud;
     }
 
     public Camera addCamera(int cube_size)

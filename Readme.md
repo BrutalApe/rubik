@@ -5,7 +5,9 @@ Added Readme.md
 Fixed Green face in wrong location
 Moved Cube to 0,0,0 so rotation is centered
 
-Features: Cube Generation, Side rotated.
+Trying to get a button to work on a HUD/CanvasLayer
+
+Features: Cube Generation.
 -    Use W,S to rotate on X axis
 -    Use A,D to rotate on Y axis
 -    Use Q,E to rotate on Z axis
