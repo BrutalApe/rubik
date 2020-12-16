@@ -167,6 +167,20 @@ public class Main : Node
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        ProcessInput(delta);
+        int result = 0;
+
+        result = (int)HUD.Call("menuProcess", delta);
+
+        if (result == 0)
+        {return;}
+        
+        if (result != cube_size)
+        {
+            RemoveChild(cube);
+            cube_size = result;
+            cube = addCube(cube_size);
+        }
+        
+
     }
 }
