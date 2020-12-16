@@ -5,7 +5,6 @@ public class Cube : Spatial
 {
     //[Export]
     PackedScene new_piece;
-    PackedScene new_side_select;
 
     Godot.Collections.Array piece_list = new Godot.Collections.Array();
     
@@ -48,9 +47,19 @@ public class Cube : Spatial
 
                     //GD.Print(test_loc);
 
-                    new_loc.x = space_constant*i;
-                    new_loc.y = space_constant*j;
-                    new_loc.z = space_constant*k;
+                    // if even, use different translation to move to center
+                    if (size%2==0)
+                    {
+                        new_loc.x = space_constant*(i-(size/2)-.5f);
+                        new_loc.y = space_constant*(j-(size/2)-1f);
+                        new_loc.z = space_constant*(k-(size/2)-.5f);
+                    }
+                    else
+                    {   
+                        new_loc.x = space_constant*(i-(size/2)-1);
+                        new_loc.y = space_constant*(j-(size/2)-1.5f);
+                        new_loc.z = space_constant*(k-(size/2)-1);
+                    }
                     piece.Translate(new_loc);
 
 
@@ -70,8 +79,6 @@ public class Cube : Spatial
 
         // add all children to piece_list
         piece_list = GetChildren();
-        // GD.Print("Children List (makeCube):");
-        // GD.Print(piece_list);
     }
 
     // These three functions would be used for direct manipulation
@@ -98,13 +105,6 @@ public class Cube : Spatial
     // }
 
     // https://godotengine.org/qa/45609/how-do-you-rotate-spatial-node-around-axis-given-point-space
-    // func rotateAround(obj, point, axis, angle):
-    //     var rot = angle + obj.rotation.y 
-    //     var tStart = point
-    //     obj.global_translate (-tStart)
-    //     obj.transform = obj.transform.rotated(axis, -rot)
-    //     obj.global_translate (tStart)
-
     public void rotateAround(Area obj, Vector3 point, Vector3 axis, float angle)
     {
         float rot = 0;

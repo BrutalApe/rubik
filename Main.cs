@@ -5,26 +5,35 @@ public class Main : Node
 {
 
     PackedScene new_cube;
-    PackedScene new_cam;
 
     private Camera cameraMain;
     private Spatial cube;
 
-    public float spacing_constant = 2.3f;
+    public float spacing_constant = 0;
+    public int cube_size = 0;
 
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    Vector3 x_axis = new Vector3(1, 0, 0);
+    Vector3 y_axis = new Vector3(0, 1, 0);
+    Vector3 z_axis = new Vector3(0, 0, 1);
+
+    public void drawAxes()
+    {
+
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
-        int cube_size = 3;
+        // initializiation
+        cube_size = 4;
+        spacing_constant = 2.3f;
 
         cube = addCube(cube_size);        
         cameraMain = addCamera(cube_size);
+
+        // functions
         
         Vector3 edge_select = new Vector3(0, 0, 1);
 
@@ -42,9 +51,9 @@ public class Main : Node
         Vector3 new_rot = new Vector3();
 
         // all values should change for translation depending on size
-        new_loc.x = -5;
-        new_loc.y = ((cube_size+2) * 2.2f);
-        new_loc.z = -5;
+        new_loc.x = -10;
+        new_loc.y = ((cube_size+2) * 1.5f);
+        new_loc.z = -10;
         new_rot.x = -30f;
         new_rot.y = -135f;
         new_rot.z = 0f;
@@ -70,26 +79,25 @@ public class Main : Node
         cube.Call("spinSide", size, side_select, direction, times);
     }
 
-    public void rotateCamera_x(int key_x)
+    public void rotateAround(Spatial obj, Vector3 angle)
     {
-        cube.RotateX(key_x/(float)Math.PI/10);
+        Vector3 new_rot = new Vector3(0,0,0);
+
+        new_rot = (angle)/(float)Math.PI/10 + obj.Rotation;
+
+        obj.Rotation = new_rot;
 
         return;
     }
 
-    public void rotateCamera_y(int key_y)
+    public void rotateCamera(Vector3 rotation)
     {
-        cube.RotateY(key_y/(float)Math.PI/10);
-
+        rotateAround(cube, rotation);
         return;
     }
 
-    public void rotateCamera_z(int key_z)
-    {
-        cube.RotateZ(key_z/(float)Math.PI/10);
-
-        return;
-    }
+    Vector3 zero_rot = new Vector3(0,0,0);
+    Vector3 rot = new Vector3(0,0,0);
 
     public override void _Input(InputEvent inputEvent)
     {
@@ -97,30 +105,42 @@ public class Main : Node
         {
             if ((KeyList)keyEvent.Scancode == KeyList.W)
             {
-                rotateCamera_x(1);
+                rot.x = 1;
+                //rotateCamera_x(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.S)
             {
-                rotateCamera_x(-1);
+                rot.x = -1;
+                //rotateCamera_x(-1);
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.A)
             {
-                rotateCamera_y(1);
+                rot.y = 1;
+                //rotateCamera_y(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.D)
             {
-                rotateCamera_y(-1);
+                rot.y = -1;
+                //rotateCamera_y(-1);
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.E)
             {
-                rotateCamera_z(1);
+                rot.z = 1;
+                //rotateCamera_z(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.Q)
             {
-                rotateCamera_z(-1);
+                rot.z = -1;
+                //rotateCamera_z(-1);
             }
+
+            rotateCamera(rot);
+            
+            // reset rotation
+            rot = zero_rot;
+
         }
 
         return;
