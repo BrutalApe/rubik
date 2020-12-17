@@ -21,14 +21,18 @@ public class Main : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+
+        addBackdrop();
+
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
         // initializiation
-        cube_size = 3;
         spacing_constant = 2.3f;
 
-        cube = addCube(cube_size);        
-        cameraMain = addCamera(cube_size);
+        //cube = addCube(cube_size);        
+        cameraMain = addCamera();
+        moveCamera(cameraMain, cube_size);
+
         HUD = addHUD();
 
         // functions
@@ -37,6 +41,30 @@ public class Main : Node
 
         //twistCube(cube, cube_size, edge_select, 1, 1);
     }
+
+    public void addBackdrop()
+    {
+        MeshInstance backdrop = new MeshInstance();
+        backdrop.Mesh = new PlaneMesh{};
+            
+        var material = new SpatialMaterial{};
+        // default color is black for plane
+        Color color_black = new Color(0,0,0);
+
+        material.AlbedoColor = color_black;
+        backdrop.SetSurfaceMaterial(0, material);
+
+        Vector3 scale = new Vector3(80, 0, 80);
+        Vector3 position = new Vector3(.5f, 0, .5f);
+        Vector3 rotation = new Vector3(-60, 45, 0);
+
+        backdrop.Scale = scale;
+        backdrop.Translate(position);
+        backdrop.RotationDegrees = rotation;
+
+        AddChild(backdrop);
+        return;
+    }  
 
     public CanvasLayer addHUD()
     {
@@ -47,19 +75,14 @@ public class Main : Node
         return hud;
     }
 
-    public Camera addCamera(int cube_size)
+    public void moveCamera(Camera camera, int size)
     {
-        Camera camera = new Camera{};
-        AddChild(camera);
-
-        camera.Current = true;
-
         Vector3 new_loc = new Vector3();
         Vector3 new_rot = new Vector3();
 
         // all values should change for translation depending on size
         new_loc.x = -10;
-        new_loc.y = ((cube_size+2) * 1.5f);
+        new_loc.y = (5 * 1.5f);
         new_loc.z = -10;
         new_rot.x = -30f;
         new_rot.y = -135f;
@@ -68,6 +91,14 @@ public class Main : Node
         camera.Translate(new_loc);
         camera.RotationDegrees = new_rot;
 
+        return;
+    }
+
+    public Camera addCamera()
+    {
+        Camera camera = new Camera{};
+        AddChild(camera);
+        camera.Current = true;
         return camera;
     }
 
@@ -169,16 +200,29 @@ public class Main : Node
     {
         int result = 0;
 
-        result = (int)HUD.Call("menuProcess", delta);
+        result = (int)HUD.Call("buttonProcess", delta);
 
         if (result == 0)
         {return;}
-        
-        if (result != cube_size)
+
+        if (result == 10)
         {
             RemoveChild(cube);
+            return;
+        }
+
+        if (result != cube_size)
+        {
+            if (cube_size == 0)
+            {
+            }
+            if (cube_size != 0)
+            {
+                RemoveChild(cube);
+            }
             cube_size = result;
             cube = addCube(cube_size);
+            return;
         }
         
 

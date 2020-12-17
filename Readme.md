@@ -1,5 +1,5 @@
 Features: 
-- Cube Generation. Click the numbered button to generate that size of cube
+- Cube Generation. Click the numbered button to generate that size of cube. Press the Back button to go back to cube selection.
 -    Use W,S to rotate on X axis
 -    Use A,D to rotate on Y axis
 -    Use Q,E to rotate on Z axis
@@ -17,5 +17,8 @@ Trying to get a button to work on a HUD/CanvasLayer
 
 12/16/20
 Added ability to press buttons to get different cube sizes
+
+Added back button to go back to cube selection screen
+Added black backdrop to cube
 
 
