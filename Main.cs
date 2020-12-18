@@ -27,7 +27,7 @@ public class Main : Node
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
         // initializiation
-        spacing_constant = 2.3f;
+        spacing_constant = 2.5f;
 
         //cube = addCube(cube_size);        
         cameraMain = addCamera();
@@ -128,7 +128,7 @@ public class Main : Node
         return;
     }
 
-    public void rotateCamera(Vector3 rotation)
+    public void rotateObj(Vector3 rotation)
     {
         rotateAround(cube, rotation);
         return;
@@ -144,37 +144,37 @@ public class Main : Node
             if ((KeyList)keyEvent.Scancode == KeyList.W)
             {
                 rot.x = 1;
-                //rotateCamera_x(1);
+                //rotateObj_x(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.S)
             {
                 rot.x = -1;
-                //rotateCamera_x(-1);
+                //rotateObj_x(-1);
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.A)
             {
                 rot.y = 1;
-                //rotateCamera_y(1);
+                //rotateObj_y(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.D)
             {
                 rot.y = -1;
-                //rotateCamera_y(-1);
+                //rotateObj_y(-1);
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.E)
             {
                 rot.z = 1;
-                //rotateCamera_z(1);
+                //rotateObj_z(1);
             }
             if ((KeyList)keyEvent.Scancode == KeyList.Q)
             {
                 rot.z = -1;
-                //rotateCamera_z(-1);
+                //rotateObj_z(-1);
             }
 
-            rotateCamera(rot);
+            rotateObj(rot);
             
             // reset rotation
             rot = zero_rot;
@@ -211,20 +211,13 @@ public class Main : Node
             return;
         }
 
-        if (result != cube_size)
-        {
-            if (cube_size == 0)
-            {
-            }
-            if (cube_size != 0)
-            {
-                RemoveChild(cube);
-            }
-            cube_size = result;
-            cube = addCube(cube_size);
-            return;
-        }
+        cube_size = result;
+        cube = addCube(cube_size);
         
-
+        Vector3 edge_select = new Vector3(0, 0, 1);
+        twistCube(cube, cube_size, edge_select, 1, 1);
+        cube.Call("makeOutline", cube_size, edge_select);
+        return;
+        
     }
 }

@@ -43,6 +43,7 @@ public class Cube : Spatial
                     piece.Call("setRotVal", new_rot);
                     
                     AddChild(piece);
+//piece.Hide();
                     //test_loc = (Godot.Vector3)piece.Call("GetLocVal");
 
                     //GD.Print(test_loc);
@@ -122,6 +123,109 @@ public class Cube : Spatial
         return;
     }
 
+    public Spatial makeOutline(int size, Vector3 side_select)
+    {
+        Spatial outline = new Spatial();
+        AddChild(outline);
+
+        Area box = new Area();
+        outline.AddChild(box);
+
+        Godot.Collections.Array edge_list = new Godot.Collections.Array();
+        Godot.Collections.Array pos_list = new Godot.Collections.Array();
+
+        float side_num = 0;
+        Vector3 ss_normal = side_select.Normalized();
+        Vector3 ss_normal_x = new Vector3(1, 0, 0);
+        Vector3 ss_normal_y = new Vector3(0, 1, 0);
+        Vector3 ss_normal_z = new Vector3(0, 0, 1);
+
+        Vector3 ss_normal_1 = new Vector3(0, 0, 0);
+        Vector3 ss_normal_2 = new Vector3(0, 0, 0);
+
+        // need more comprehensive error checking
+        if      (ss_normal.x == 1){side_num = side_select.x; ss_normal_1 = ss_normal_y; ss_normal_2 = ss_normal_z;}
+        else if (ss_normal.y == 1){side_num = side_select.y; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_z;}
+        else if (ss_normal.z == 1){side_num = side_select.z; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_y;}
+        else {GD.Print("ERROR, side select makeOutline");return outline;}
+
+        Vector3 scale_add = new Vector3(0.1f, 0.1f, 0.1f);
+
+        // 12 edges to a rectangular prism, so can make 8 of them 
+        // size-long, the other 4 are 1 unit long
+        Vector3 scale_long = (ss_normal * size) + scale_add;
+        Vector3 scale_short = ss_normal + scale_add;
+
+        Vector3 rotation_long_1 = ss_normal_1*90f;
+        Vector3 rotation_long_2 = ss_normal_2*90f;
+        Vector3 rotation_short = ss_normal*90f;
+
+        // limit of axis position is side_num +- 2.3/2
+        // other two axes are 
+        Vector3 base_pos = ss_normal*(0-side_num);
+
+        Vector3 position_short_1 = base_pos;
+        Vector3 position_short_2 = base_pos;
+        Vector3 position_short_3 = base_pos;
+        Vector3 position_short_4 = base_pos;
+
+        Vector3 position_long_1_1 = base_pos;
+        Vector3 position_long_1_2 = base_pos;
+        Vector3 position_long_1_3 = base_pos;
+        Vector3 position_long_1_4 = base_pos;
+
+        Vector3 position_long_2_1 = base_pos;
+        Vector3 position_long_2_2 = base_pos;
+        Vector3 position_long_2_3 = base_pos;
+        Vector3 position_long_2_4 = base_pos;
+
+        pos_list.Add(position_short_1);
+        pos_list.Add(position_short_2);
+        pos_list.Add(position_short_3);
+        pos_list.Add(position_short_4);
+        pos_list.Add(position_long_1_1);
+        pos_list.Add(position_long_1_2);
+        pos_list.Add(position_long_1_3);
+        pos_list.Add(position_long_1_4);
+        pos_list.Add(position_long_2_1);
+        pos_list.Add(position_long_2_2);
+        pos_list.Add(position_long_2_3);
+        pos_list.Add(position_long_2_4);
+
+        // aligned with axis
+
+        for (int i = 0; i < 12; i++)
+        {
+            MeshInstance edge = new MeshInstance();
+            edge.Mesh = new CubeMesh{};
+            box.AddChild(edge);
+            
+            edge.Translate((Vector3)pos_list[i]);
+
+            if (i >= 0 && i < 4)
+            {
+                edge.Scale = scale_short;
+                edge.RotationDegrees = rotation_short;
+            }
+
+            else if (i >= 4 && i < 8)
+            {
+                edge.Scale = scale_long;
+                edge.RotationDegrees = rotation_long_2;
+            }
+
+            else if (i >= 8 && i < 12)
+            {
+                edge.Scale = scale_long;
+                edge.RotationDegrees = rotation_long_1;
+            }
+
+            edge_list.Add(edge);
+        }
+
+        return outline;
+    }
+
     public void spinSide(int size, Vector3 side_select, int direction, int times)
     {
         var side = 0;
@@ -184,7 +288,7 @@ public class Cube : Spatial
         
         // rotation point always center of cube
         float cent_pnt = space_constant*(size-1);
-        Vector3 point = new Vector3(cent_pnt, cent_pnt+1, cent_pnt);
+        Vector3 point = new Vector3(0, 0, 0);
         
         float angle = (float)Math.PI;
 
