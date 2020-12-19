@@ -82,7 +82,13 @@ public class Piece : Area
     // will also need to color faces
     public void addPiece(int size, int x_crd, int y_crd, int z_crd)
     {
-       
+        // add piece; color comes after
+        MeshInstance p_box = new MeshInstance{};
+        p_box.Mesh = new CubeMesh{};
+        AddChild(p_box);
+        var material_box = new SpatialMaterial{};
+        material_box.AlbedoColor = color_black;
+        p_box.SetSurfaceMaterial(0, material_box);
 
         // depending on coordinate, paint side specific color
         for (var f = 0; f < 6; f++)
@@ -141,69 +147,58 @@ public class Piece : Area
 
 
             p.SetSurfaceMaterial(0, material);
-        }
 
-        // addPlane(side_top);
-        // addPlane(side_bottom);
-        // addPlane(side_right);
-        // addPlane(side_back);
-        // addPlane(side_front);
-        // addPlane(side_left);
+            p_box.AddChild(p);
+        }
     }
 
     // create faces for each piece, so each can be colored 
     // individually
+    Vector3 new_scale = new Vector3(0.9f, 0.9f, 0.9f);
+
     public MeshInstance addPlane(int side)
     {
         MeshInstance p = new MeshInstance{};
         p.Mesh = new PlaneMesh{};
-        AddChild(p);
         
-        Vector3 new_loc = new Vector3();
-        Vector3 new_rot = new Vector3();
+        Vector3 new_loc = new Vector3(0, 0, 0);
+        Vector3 new_rot = new Vector3(0, 0, 0);
 
-        new_loc.x = 0;
-        new_loc.y = 0;
-        new_loc.z = 0;
-        new_rot.x = 0f;
-        new_rot.y = 0f;
-        new_rot.z = 0f;
+        var spread = 1.15f;
 
         switch (side)
         {
             case side_top:
-                new_loc.y = 2;
+                new_loc.y = spread;
                 break;
 
             case side_bottom:
                 new_rot.x = 180f;
+                new_loc.y = -spread;
                 break;
 
             case side_left:
                 new_rot.z = -90f;
-                new_loc.x = 1;
-                new_loc.y = 1;
+                new_loc.x = spread;
                 break;
 
             case side_right:
                 new_rot.z = 90f;
-                new_loc.x = -1;
-                new_loc.y = 1;
+                new_loc.x = -spread;
                 break;
 
             case side_back:
                 new_rot.x = 90f;
-                new_loc.y = 1;
-                new_loc.z = 1;
+                new_loc.z = spread;
                 break;
 
             case side_front:
                 new_rot.x = -90f;
-                new_loc.y = 1;
-                new_loc.z = -1;
+                new_loc.z = -spread;
                 break;
         }
 
+        p.Scale = new_scale;
         p.Translate(new_loc);
         p.RotationDegrees = new_rot;
 

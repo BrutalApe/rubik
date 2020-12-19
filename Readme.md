@@ -32,4 +32,5 @@ Maybe should also put camera at ground level, so rotation is more intuitive
 12/17/20
 still working on bounding box, and space constant wonkiness
 
-
+12/18/20
+fixed rotation bug when no cube present, made it so sides visible and no spacing constant needed.

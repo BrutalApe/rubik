@@ -51,14 +51,14 @@ public class Cube : Spatial
                     // if even, use different translation to move to center
                     if (size%2==0)
                     {
-                        new_loc.x = space_constant*(i-(size/2)-.5f);
-                        new_loc.y = space_constant*(j-(size/2)-1f);
-                        new_loc.z = space_constant*(k-(size/2)-.5f);
+                        new_loc.x = space_constant*(i-(size/2)-0.5f);
+                        new_loc.y = space_constant*(j-(size/2)-0.5f);
+                        new_loc.z = space_constant*(k-(size/2)-0.5f);
                     }
                     else
                     {   
                         new_loc.x = space_constant*(i-(size/2)-1);
-                        new_loc.y = space_constant*(j-(size/2)-1.5f);
+                        new_loc.y = space_constant*(j-(size/2)-1);
                         new_loc.z = space_constant*(k-(size/2)-1);
                     }
                     piece.Translate(new_loc);
@@ -154,7 +154,8 @@ public class Cube : Spatial
         // 12 edges to a rectangular prism, so can make 8 of them 
         // size-long, the other 4 are 1 unit long
         Vector3 scale_long = (ss_normal * size) + scale_add;
-        Vector3 scale_short = ss_normal + scale_add;
+        //Vector3 scale_short = ss_normal + scale_add;
+        Vector3 scale_short = scale_long;
 
         Vector3 rotation_long_1 = ss_normal_1*90f;
         Vector3 rotation_long_2 = ss_normal_2*90f;
@@ -200,7 +201,7 @@ public class Cube : Spatial
             edge.Mesh = new CubeMesh{};
             box.AddChild(edge);
             
-            edge.Translate((Vector3)pos_list[i]);
+            //edge.Translate((Vector3)pos_list[i]);
 
             if (i >= 0 && i < 4)
             {

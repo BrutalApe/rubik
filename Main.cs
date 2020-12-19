@@ -27,7 +27,7 @@ public class Main : Node
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
         // initializiation
-        spacing_constant = 2.5f;
+        spacing_constant = 2f;
 
         //cube = addCube(cube_size);        
         cameraMain = addCamera();
@@ -130,6 +130,11 @@ public class Main : Node
 
     public void rotateObj(Vector3 rotation)
     {
+        if (cube_size == 0)
+        {
+            return;
+        }
+
         rotateAround(cube, rotation);
         return;
     }
@@ -207,6 +212,7 @@ public class Main : Node
 
         if (result == 10)
         {
+            cube_size = 0;
             RemoveChild(cube);
             return;
         }
