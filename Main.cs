@@ -220,7 +220,7 @@ public class Main : Node
         cube_size = result;
         cube = addCube(cube_size);
         
-        Vector3 edge_select = new Vector3(0, 0, 1);
+        Vector3 edge_select = new Vector3(0, 2, 0);
         twistCube(cube, cube_size, edge_select, 1, 1);
         cube.Call("makeOutline", cube_size, edge_select);
         return;

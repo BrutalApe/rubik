@@ -123,6 +123,12 @@ public class Cube : Spatial
         return;
     }
 
+    public void removeOutline(Spatial outline)
+    {
+        RemoveChild(outline);
+        return;
+    }
+
     public Spatial makeOutline(int size, Vector3 side_select)
     {
         Spatial outline = new Spatial();
@@ -154,46 +160,45 @@ public class Cube : Spatial
         // 12 edges to a rectangular prism, so can make 8 of them 
         // size-long, the other 4 are 1 unit long
         Vector3 scale_long = (ss_normal * size) + scale_add;
-        //Vector3 scale_short = ss_normal + scale_add;
-        Vector3 scale_short = scale_long;
+        Vector3 scale_short = ss_normal + scale_add;
 
         Vector3 rotation_long_1 = ss_normal_1*90f;
         Vector3 rotation_long_2 = ss_normal_2*90f;
         Vector3 rotation_short = ss_normal*90f;
 
-        // limit of axis position is side_num +- 2.3/2
-        // other two axes are 
-        Vector3 base_pos = ss_normal*(0-side_num);
+        Vector3 base_pos = ss_normal*(side_num-(size)+(((float)side_num-1f)*1f));
 
-        Vector3 position_short_1 = base_pos;
-        Vector3 position_short_2 = base_pos;
-        Vector3 position_short_3 = base_pos;
-        Vector3 position_short_4 = base_pos;
+        Vector3 base_pos_side_small = ss_normal;
+        Vector3 base_pos_side_1 = ss_normal_1*size;
+        Vector3 base_pos_side_2 = ss_normal_2*size;
 
-        Vector3 position_long_1_1 = base_pos;
-        Vector3 position_long_1_2 = base_pos;
-        Vector3 position_long_1_3 = base_pos;
-        Vector3 position_long_1_4 = base_pos;
+        Vector3 position_short_1 = base_pos+base_pos_side_1+base_pos_side_2;
+        Vector3 position_short_2 = base_pos+base_pos_side_1-base_pos_side_2;
+        Vector3 position_short_3 = base_pos-base_pos_side_1+base_pos_side_2;
+        Vector3 position_short_4 = base_pos-base_pos_side_1-base_pos_side_2;
 
-        Vector3 position_long_2_1 = base_pos;
-        Vector3 position_long_2_2 = base_pos;
-        Vector3 position_long_2_3 = base_pos;
-        Vector3 position_long_2_4 = base_pos;
+        Vector3 position_long_1_1 = base_pos+base_pos_side_1+ss_normal;
+        Vector3 position_long_1_2 = base_pos+base_pos_side_1-ss_normal;
+        Vector3 position_long_1_3 = base_pos-base_pos_side_1+ss_normal;
+        Vector3 position_long_1_4 = base_pos-base_pos_side_1-ss_normal;
+
+        Vector3 position_long_2_1 = base_pos+base_pos_side_2+ss_normal;
+        Vector3 position_long_2_2 = base_pos+base_pos_side_2-ss_normal;
+        Vector3 position_long_2_3 = base_pos-base_pos_side_2+ss_normal;
+        Vector3 position_long_2_4 = base_pos-base_pos_side_2-ss_normal;
 
         pos_list.Add(position_short_1);
         pos_list.Add(position_short_2);
         pos_list.Add(position_short_3);
         pos_list.Add(position_short_4);
-        pos_list.Add(position_long_1_1);
-        pos_list.Add(position_long_1_2);
-        pos_list.Add(position_long_1_3);
-        pos_list.Add(position_long_1_4);
         pos_list.Add(position_long_2_1);
         pos_list.Add(position_long_2_2);
         pos_list.Add(position_long_2_3);
         pos_list.Add(position_long_2_4);
-
-        // aligned with axis
+        pos_list.Add(position_long_1_1);
+        pos_list.Add(position_long_1_2);
+        pos_list.Add(position_long_1_3);
+        pos_list.Add(position_long_1_4);
 
         for (int i = 0; i < 12; i++)
         {
@@ -201,7 +206,7 @@ public class Cube : Spatial
             edge.Mesh = new CubeMesh{};
             box.AddChild(edge);
             
-            //edge.Translate((Vector3)pos_list[i]);
+            edge.Translate((Vector3)pos_list[i]);
 
             if (i >= 0 && i < 4)
             {

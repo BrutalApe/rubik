@@ -34,3 +34,5 @@ still working on bounding box, and space constant wonkiness
 
 12/18/20
 fixed rotation bug when no cube present, made it so sides visible and no spacing constant needed.
+
+Bounding box successfully added; takes same vector input as twistSide, so when selecting a side an outline will be created.
