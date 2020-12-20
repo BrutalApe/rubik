@@ -8,6 +8,12 @@ public class Cube : Spatial
 
     Godot.Collections.Array piece_list = new Godot.Collections.Array();
     
+    private Spatial outline = new Spatial();
+    public int outline_exists = 0;
+
+    private Spatial axis_lines = new Spatial();
+    public int axis_lines_exist = 0;
+
     public float space_constant = 0;
 
     Vector3 x_axis = new Vector3(1, 0, 0);
@@ -43,10 +49,6 @@ public class Cube : Spatial
                     piece.Call("setRotVal", new_rot);
                     
                     AddChild(piece);
-//piece.Hide();
-                    //test_loc = (Godot.Vector3)piece.Call("GetLocVal");
-
-                    //GD.Print(test_loc);
 
                     // if even, use different translation to move to center
                     if (size%2==0)
@@ -62,18 +64,6 @@ public class Cube : Spatial
                         new_loc.z = space_constant*(k-(size/2)-1);
                     }
                     piece.Translate(new_loc);
-
-
-                    // Vector3 box_vec = new Vector3(1, 1, 1);
-                    // BoxShape box_shape = new BoxShape();
-                    // box_shape.Extents = box_vec;
-
-                    // var collision = new CollisionShape();
-                    // collision.Shape = box_shape;
-                    
-                    // // give piece the collision shape
-                    // piece.AddChild(collision);
-
                 }
             }
         }
@@ -123,16 +113,72 @@ public class Cube : Spatial
         return;
     }
 
-    public void removeOutline(Spatial outline)
+    public void removeAxisLines()
     {
-        RemoveChild(outline);
+        if (axis_lines_exist == 1)
+        {
+            RemoveChild(axis_lines);
+            axis_lines_exist = 0;
+        }
+        return;
+    }
+
+    public Spatial makeAxisLines(int size)
+    {
+        axis_lines = new Spatial();
+        AddChild(axis_lines);
+        axis_lines_exist = 1;
+        Area axis_lines_area = new Area();
+        axis_lines.AddChild(axis_lines_area);
+
+        Vector3 axis_scale = new Vector3(0, 0, 0);
+
+        for (int i = 0; i < 3; i++)
+        {
+            MeshInstance single_axis = new MeshInstance();
+            single_axis.Mesh = new CubeMesh{};
+            axis_lines_area.AddChild(single_axis);
+
+            axis_scale = new Vector3(0.1f, 0.1f, 0.1f);
+
+            switch (i)
+            {
+                case 0:
+                    axis_scale.x = size+1;
+                    break;
+                
+                case 1:
+                    axis_scale.y = size+1;
+                    break;
+                
+                case 2:
+                    axis_scale.z = size+1;
+                    break;
+            }
+
+            single_axis.Translate(-1*axis_scale/(size+1));            
+            single_axis.Scale = axis_scale;
+        }
+
+        return axis_lines;
+    }
+
+    public void removeOutline()
+    {
+        if (outline_exists == 1)
+        {
+            RemoveChild(outline);
+            outline_exists = 0;
+        }
+        
         return;
     }
 
     public Spatial makeOutline(int size, Vector3 side_select)
     {
-        Spatial outline = new Spatial();
+        outline = new Spatial();
         AddChild(outline);
+        outline_exists = 1;
 
         Area box = new Area();
         outline.AddChild(box);
@@ -142,17 +188,17 @@ public class Cube : Spatial
 
         float side_num = 0;
         Vector3 ss_normal = side_select.Normalized();
-        Vector3 ss_normal_x = new Vector3(1, 0, 0);
-        Vector3 ss_normal_y = new Vector3(0, 1, 0);
-        Vector3 ss_normal_z = new Vector3(0, 0, 1);
+        Vector3 ss_normal_x = x_axis;
+        Vector3 ss_normal_y = y_axis;
+        Vector3 ss_normal_z = z_axis;
 
         Vector3 ss_normal_1 = new Vector3(0, 0, 0);
         Vector3 ss_normal_2 = new Vector3(0, 0, 0);
 
         // need more comprehensive error checking
-        if      (ss_normal.x == 1){side_num = side_select.x; ss_normal_1 = ss_normal_y; ss_normal_2 = ss_normal_z;}
-        else if (ss_normal.y == 1){side_num = side_select.y; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_z;}
-        else if (ss_normal.z == 1){side_num = side_select.z; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_y;}
+        if      (side_select.x >= 1){side_num = side_select.x; ss_normal_1 = ss_normal_y; ss_normal_2 = ss_normal_z;}
+        else if (side_select.y >= 1){side_num = side_select.y; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_z;}
+        else if (side_select.z >= 1){side_num = side_select.z; ss_normal_1 = ss_normal_x; ss_normal_2 = ss_normal_y;}
         else {GD.Print("ERROR, side select makeOutline");return outline;}
 
         Vector3 scale_add = new Vector3(0.1f, 0.1f, 0.1f);
@@ -296,15 +342,65 @@ public class Cube : Spatial
         float cent_pnt = space_constant*(size-1);
         Vector3 point = new Vector3(0, 0, 0);
         
-        float angle = (float)Math.PI;
+        float angle = direction*(float)Math.PI/2f;
+
+        Vector3 cur_loc = new Vector3(0, 0, 0);
+        Vector2 cur_loc_2 = new Vector2(0, 0);
+        Vector3 new_loc = new Vector3(0, 0, 0);
+
+        int piece_cnt = 0;
 
         foreach (Area piece in spin_piece_list)
         {
             rotateAround(piece, point, axis, angle);
+            cur_loc = (Vector3)piece.Call("getLocVal");
+            GD.Print("\nFrom:");
+            GD.Print(cur_loc);
+
+            if (axis == x_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.z);} 
+            else if (axis == y_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.z);}
+            else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.y);}
+
+            new_loc = cur_loc;
+            GD.Print(cur_loc_2);
+
+            // corners:
+            if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
+            {
+                if (direction == 1){cur_loc_2.x = size;}
+                else if (direction == -1){cur_loc_2.y = size;}
+            }
+            else if (cur_loc_2.x == side_num && cur_loc_2.y == 1)
+            {
+                if (direction == 1){cur_loc_2.y = size;}
+                else if (direction == -1){cur_loc_2.x = 1;}   
+            }
+            else if (cur_loc_2.x == side_num && cur_loc_2.y == side_num)
+            {
+                if (direction == 1){cur_loc_2.x = 1;}
+                else if (direction == -1){cur_loc_2.y = 1;}
+            }
+            else if (cur_loc_2.x == 1 && cur_loc_2.y == side_num)
+            {
+                if (direction == 1){cur_loc_2.y = 1;}
+                else if (direction == -1){cur_loc_2.x = size;}
+            }
+
+            GD.Print(cur_loc_2);
+
+            if (axis == x_axis) {new_loc = new Vector3(side_num, cur_loc_2.x, cur_loc_2.y);} 
+            if (axis == y_axis) {new_loc = new Vector3(cur_loc_2.x, side_num, cur_loc_2.y);}
+            if (axis == z_axis) {new_loc = new Vector3(cur_loc_2.x, cur_loc_2.y, side_num);}
+
+            GD.Print("To:");
+            GD.Print(new_loc);
+            piece.Call("setLocVal", new_loc);
+
+            piece_cnt++;
+
         }
 
-        // move each piece to location indicated by dir/side
-
+        // update each piece's coordinates/rotation
 
         return;
     }
@@ -313,17 +409,3 @@ public class Cube : Spatial
     // {
     // }
 }
-
-// These vectors will be decided by 'side' value
-
-// new_side_select = (PackedScene)ResourceLoader.Load("res://SideSelect.tscn");
-// Area side_select = (Area)new_side_select.Instance();
-// side_select.Call("createBoundingBox", start_coord, end_coord);
-// AddChild(side_select);
-
-// Godot.Collections.Array pieces = side_select.GetOverlappingAreas();
-
-// GD.Print(pieces);
-
-// at end, remove side selector
-//RemoveChild(side_select);   

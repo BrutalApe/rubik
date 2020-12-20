@@ -11,12 +11,15 @@ public class Main : Node
     private Spatial cube;
     private CanvasLayer HUD;
 
+
     public float spacing_constant = 0;
     public int cube_size = 0;
 
     Vector3 x_axis = new Vector3(1, 0, 0);
     Vector3 y_axis = new Vector3(0, 1, 0);
     Vector3 z_axis = new Vector3(0, 0, 1);
+
+    Vector3 edge_select = new Vector3(0, 0, 0);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -71,6 +74,8 @@ public class Main : Node
         new_hud = (PackedScene)ResourceLoader.Load("res://HUD.tscn");
         CanvasLayer hud = (CanvasLayer)new_hud.Instance();
         AddChild(hud);
+
+        hud.Call("menuView");
 
         return hud;
     }
@@ -128,7 +133,7 @@ public class Main : Node
         return;
     }
 
-    public void rotateObj(Vector3 rotation)
+    public void rotateObj(Vector3 rotation) 
     {
         if (cube_size == 0)
         {
@@ -209,20 +214,58 @@ public class Main : Node
 
         if (result == 0)
         {return;}
+        GD.Print(result);
+
+        if ((result >= 2) && (result <= 7))
+        {
+            cube_size = result;
+            cube = addCube(cube_size);
+            //cube.Call("makeAxisLines", cube_size);
+            return;
+        }
 
         if (result == 10)
         {
             cube_size = 0;
+            edge_select = new Vector3(0, 0, 0);
+            //cube.Call("removeAxisLines");
             RemoveChild(cube);
             return;
         }
-
-        cube_size = result;
-        cube = addCube(cube_size);
         
-        Vector3 edge_select = new Vector3(0, 2, 0);
-        twistCube(cube, cube_size, edge_select, 1, 1);
-        cube.Call("makeOutline", cube_size, edge_select);
+        if ((result >= 0x100) && (result <= 0x104))
+        {
+            cube.Call("removeOutline");
+            
+            if (result == 0x100){edge_select = new Vector3(1, 0, 0);}
+            if (result == 0x101){edge_select = new Vector3(0, 1, 0);}
+            if (result == 0x102){edge_select = new Vector3(0, 0, 1);}
+
+            if ((result == 0x103) && (edge_select.Length() < cube_size))
+            {
+                edge_select = edge_select + edge_select.Normalized();
+            }
+            if ((result == 0x104) && (edge_select.Length() > 1))
+            {
+                edge_select = edge_select - edge_select.Normalized();
+            }
+            
+            cube.Call("makeOutline", cube_size, edge_select);
+
+            HUD.Call("cubeShow");
+
+            return;
+        }
+
+        if ((result >= 0x200) && (result <= 0x201))
+        {
+            if (result == 0x200){twistCube(cube, cube_size, edge_select, -1, 1);}
+            if (result == 0x201){twistCube(cube, cube_size, edge_select, 1, 1);}
+            HUD.Call("cubeShow");
+        }
+
+        
+        //twistCube(cube, cube_size, edge_select, 1, 1);
         return;
         
     }
