@@ -105,10 +105,12 @@ public class Cube : Spatial
         else if (axis == z_axis){rot = angle + obj.Rotation.z;}
         else    {return;}
 
-        var tStart = point;
-        obj.GlobalTranslate (-tStart);
-        obj.Transform = obj.Transform.Rotated(axis, -rot);
-        obj.GlobalTranslate (tStart);
+        obj.GlobalRotate(axis, -angle);
+
+        // var tStart = point;
+        // obj.GlobalTranslate (-tStart);
+        // obj.Transform = obj.Transform.Rotated(axis, -rot);
+        // obj.GlobalTranslate (tStart);
 
         return;
     }
@@ -353,54 +355,70 @@ public class Cube : Spatial
         foreach (Area piece in spin_piece_list)
         {
             rotateAround(piece, point, axis, angle);
+    
+            // update each piece's coordinates/rotation
             cur_loc = (Vector3)piece.Call("getLocVal");
-            GD.Print("\nFrom:");
-            GD.Print(cur_loc);
 
-            if (axis == x_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.z);} 
+            if (axis == x_axis) {cur_loc_2 = new Vector2(cur_loc.z, cur_loc.y);} 
             else if (axis == y_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.z);}
-            else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.y);}
+            else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.x);}
 
             new_loc = cur_loc;
-            GD.Print(cur_loc_2);
 
             // corners:
             if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
             {
                 if (direction == 1){cur_loc_2.x = size;}
-                else if (direction == -1){cur_loc_2.y = size;}
+                else {cur_loc_2.y = size;}
             }
-            else if (cur_loc_2.x == side_num && cur_loc_2.y == 1)
+            else if (cur_loc_2.x == size && cur_loc_2.y == 1)
             {
                 if (direction == 1){cur_loc_2.y = size;}
-                else if (direction == -1){cur_loc_2.x = 1;}   
+                else {cur_loc_2.x = 1;}   
             }
-            else if (cur_loc_2.x == side_num && cur_loc_2.y == side_num)
+            else if (cur_loc_2.x == size && cur_loc_2.y == size)
             {
                 if (direction == 1){cur_loc_2.x = 1;}
-                else if (direction == -1){cur_loc_2.y = 1;}
+                else {cur_loc_2.y = 1;}
             }
-            else if (cur_loc_2.x == 1 && cur_loc_2.y == side_num)
+            else if (cur_loc_2.x == 1 && cur_loc_2.y == size)
             {
                 if (direction == 1){cur_loc_2.y = 1;}
-                else if (direction == -1){cur_loc_2.x = size;}
+                else {cur_loc_2.x = size;}
             }
 
-            GD.Print(cur_loc_2);
-
-            if (axis == x_axis) {new_loc = new Vector3(side_num, cur_loc_2.x, cur_loc_2.y);} 
+            if (axis == x_axis) {new_loc = new Vector3(side_num, cur_loc_2.y, cur_loc_2.x);} 
             if (axis == y_axis) {new_loc = new Vector3(cur_loc_2.x, side_num, cur_loc_2.y);}
-            if (axis == z_axis) {new_loc = new Vector3(cur_loc_2.x, cur_loc_2.y, side_num);}
+            if (axis == z_axis) {new_loc = new Vector3(cur_loc_2.y, cur_loc_2.x, side_num);}
 
-            GD.Print("To:");
-            GD.Print(new_loc);
             piece.Call("setLocVal", new_loc);
+
+            // if (size%2==0)
+            // {
+            //     new_loc = new_loc*((-(size/2)-0.5f));
+            // }
+            // else
+            // {   
+            //     new_loc = new_loc*((-(size/2)-1));
+            // }
+            
+            GD.Print(cur_loc);
+            GD.Print("->");
+            GD.Print(new_loc);
+            GD.Print("=");
+
+            Vector3 test_vec = -2*(cur_loc-new_loc);
+            piece.GlobalTranslate(test_vec);
+            GD.Print(test_vec);
+            GD.Print("\n");
+
+            
+            //GD.Print(piece.Call("getLocVal"));
 
             piece_cnt++;
 
         }
 
-        // update each piece's coordinates/rotation
 
         return;
     }

@@ -192,7 +192,7 @@ public class Main : Node
         }
 
         return;
-    } 
+    }  
 
     private void ProcessInput(float delta)
     {
@@ -264,7 +264,6 @@ public class Main : Node
             HUD.Call("cubeShow");
         }
 
-        
         //twistCube(cube, cube_size, edge_select, 1, 1);
         return;
         
