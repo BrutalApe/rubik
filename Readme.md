@@ -7,6 +7,7 @@ Features:
 
 
 Activity Log:
+
 12/14/20
 Added Readme.md
 
@@ -44,3 +45,5 @@ saw weird visual glitches when moving too many pieces. Has something to do with 
 12/22/20
 noticed that pieces become rotated slightly when twisting a side
 while cube view is rotated. Can fix that by having the Camera move instead. Also, almost have corners rotating correctly (meaning the 2x2 will soon be functional)
+
+2x2 is functional. Corners working. Working on a hardcoded system for 3x3 edges, so maybe a pattern for all sizes will develop.

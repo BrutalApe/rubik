@@ -350,6 +350,9 @@ public class Cube : Spatial
         Vector2 cur_loc_2 = new Vector2(0, 0);
         Vector3 new_loc = new Vector3(0, 0, 0);
 
+        Vector2 move_vec_2 = new Vector2(0, 0);
+        Vector3 move_vec_3 = new Vector3(0, 0, 0);
+
         int piece_cnt = 0;
 
         foreach (Area piece in spin_piece_list)
@@ -363,53 +366,74 @@ public class Cube : Spatial
             else if (axis == y_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.z);}
             else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.x);}
 
-            new_loc = cur_loc;
+            var cm_val = 2;
 
             // corners:
             if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
             {
-                if (direction == 1){cur_loc_2.x = size;}
-                else {cur_loc_2.y = size;}
+                if (direction == 1) {move_vec_2 = new Vector2(cm_val, 0);}
+                else                {move_vec_2 = new Vector2(0, cm_val);}
             }
             else if (cur_loc_2.x == size && cur_loc_2.y == 1)
             {
-                if (direction == 1){cur_loc_2.y = size;}
-                else {cur_loc_2.x = 1;}   
+                if (direction == 1) {move_vec_2 = new Vector2(0, cm_val);}
+                else                {move_vec_2 = new Vector2(-cm_val, 0);}   
             }
             else if (cur_loc_2.x == size && cur_loc_2.y == size)
             {
-                if (direction == 1){cur_loc_2.x = 1;}
-                else {cur_loc_2.y = 1;}
+                if (direction == 1) {move_vec_2 = new Vector2(-cm_val, 0);}
+                else                {move_vec_2 = new Vector2(0, -cm_val);}
             }
             else if (cur_loc_2.x == 1 && cur_loc_2.y == size)
             {
-                if (direction == 1){cur_loc_2.y = 1;}
-                else {cur_loc_2.x = size;}
+                if (direction == 1) {move_vec_2 = new Vector2(0, -cm_val);}
+                else                {move_vec_2 = new Vector2(cm_val, 0);}
             }
+
+            // sides (3x3) coords add up to odd number
+            else if ((cur_loc_2.x + cur_loc_2.y)%2 != 0)
+            {
+                if (cur_loc_2.x == size && cur_loc_2.y == size-1)
+                {
+                    if (direction == 1) {move_vec_2 = new Vector2(cm_val, 0);}
+                    else                {move_vec_2 = new Vector2(0, cm_val);}
+                }
+                else if (cur_loc_2.x == size-1 && cur_loc_2.y == size)
+                {
+                    if (direction == 1) {move_vec_2 = new Vector2(0, cm_val);}
+                    else                {move_vec_2 = new Vector2(-cm_val, 0);}   
+                }
+                else if (cur_loc_2.x == size && cur_loc_2.y == size)
+                {
+                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val, 0);}
+                    else                {move_vec_2 = new Vector2(0, -cm_val);}
+                }
+                else if (cur_loc_2.x == 1 && cur_loc_2.y == size)
+                {
+                    if (direction == 1) {move_vec_2 = new Vector2(0, -cm_val);}
+                    else                {move_vec_2 = new Vector2(cm_val, 0);}
+                }
+            }
+
+            cur_loc_2 += move_vec_2/2;
 
             if (axis == x_axis) {new_loc = new Vector3(side_num, cur_loc_2.y, cur_loc_2.x);} 
             if (axis == y_axis) {new_loc = new Vector3(cur_loc_2.x, side_num, cur_loc_2.y);}
             if (axis == z_axis) {new_loc = new Vector3(cur_loc_2.y, cur_loc_2.x, side_num);}
 
-            piece.Call("setLocVal", new_loc);
+            if (axis == x_axis)      {move_vec_3 = new Vector3(0, move_vec_2.y, move_vec_2.x);} 
+            else if (axis == y_axis) {move_vec_3 = new Vector3(move_vec_2.x, 0, move_vec_2.y);}
+            else if (axis == z_axis) {move_vec_3 = new Vector3(move_vec_2.y, move_vec_2.x, 0);}
 
-            // if (size%2==0)
-            // {
-            //     new_loc = new_loc*((-(size/2)-0.5f));
-            // }
-            // else
-            // {   
-            //     new_loc = new_loc*((-(size/2)-1));
-            // }
+            piece.Call("setLocVal", new_loc);
             
             GD.Print(cur_loc);
             GD.Print("->");
             GD.Print(new_loc);
             GD.Print("=");
 
-            Vector3 test_vec = -2*(cur_loc-new_loc);
-            piece.GlobalTranslate(test_vec);
-            GD.Print(test_vec);
+            piece.GlobalTranslate(move_vec_3);
+            GD.Print(move_vec_3);
             GD.Print("\n");
 
             
