@@ -21,11 +21,15 @@ public class Main : Node
 
     Vector3 edge_select = new Vector3(0, 0, 0);
 
+    Vector3 camera_rot = new Vector3(0,0,0);
+    // amount to spin camera by
+    float rotation_increment = (float)Math.PI/20f;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
 
-        addBackdrop();
+        //addBackdrop();
 
         //Input.SetMouseMode(Input.MouseMode.Captured);
 
@@ -45,29 +49,29 @@ public class Main : Node
         //twistCube(cube, cube_size, edge_select, 1, 1);
     }
 
-    public void addBackdrop()
-    {
-        MeshInstance backdrop = new MeshInstance();
-        backdrop.Mesh = new PlaneMesh{};
+    // public void addBackdrop()
+    // {
+    //     MeshInstance backdrop = new MeshInstance();
+    //     backdrop.Mesh = new PlaneMesh{};
             
-        var material = new SpatialMaterial{};
-        // default color is black for plane
-        Color color_black = new Color(0,0,0);
+    //     var material = new SpatialMaterial{};
+    //     // default color is black for plane
+    //     Color color_black = new Color(0,0,0);
 
-        material.AlbedoColor = color_black;
-        backdrop.SetSurfaceMaterial(0, material);
+    //     material.AlbedoColor = color_black;
+    //     backdrop.SetSurfaceMaterial(0, material);
 
-        Vector3 scale = new Vector3(80, 0, 80);
-        Vector3 position = new Vector3(.5f, 0, .5f);
-        Vector3 rotation = new Vector3(-60, 45, 0);
+    //     Vector3 scale = new Vector3(80, 0, 80);
+    //     Vector3 position = new Vector3(-1f, 0, -1f);
+    //     Vector3 rotation = new Vector3(30, 180-45, 30);
 
-        backdrop.Scale = scale;
-        backdrop.Translate(position);
-        backdrop.RotationDegrees = rotation;
+    //     backdrop.Scale = scale;
+    //     backdrop.Translate(position);
+    //     backdrop.RotationDegrees = rotation;
 
-        AddChild(backdrop);
-        return;
-    }  
+    //     AddChild(backdrop);
+    //     return;
+    // }  
 
     public CanvasLayer addHUD()
     {
@@ -80,21 +84,43 @@ public class Main : Node
         return hud;
     }
 
+    // https://godotengine.org/qa/45609/how-do-you-rotate-spatial-node-around-axis-given-point-space
+    public void rotateCamera(Camera camera, Vector3 point, Vector3 axis, float angle)
+    {
+        float rot = 0;
+
+        if      (axis == x_axis){rot = angle + camera.Rotation.x;}
+        else if (axis == y_axis){rot = angle + camera.Rotation.y;}
+        else if (axis == z_axis){rot = angle + camera.Rotation.z;}
+        else    {return;}
+
+        GD.Print(angle);
+
+        var tStart = point;
+        camera.GlobalTranslate (-tStart);
+        camera.Transform = camera.Transform.Rotated(axis, -rot);
+        camera.GlobalTranslate (tStart);
+
+        return;
+    }
+
     public void moveCamera(Camera camera, int size)
     {
         Vector3 new_loc = new Vector3();
         Vector3 new_rot = new Vector3();
 
         // all values should change for translation depending on size
-        new_loc.x = -10;
+        new_loc.x = 10;
         new_loc.y = (5 * 1.5f);
-        new_loc.z = -10;
+        new_loc.z = 10;
         new_rot.x = -30f;
-        new_rot.y = -135f;
+        new_rot.y = 180-135f;
         new_rot.z = 0f;
 
+        camera_rot = new_rot;
+
         camera.Translate(new_loc);
-        camera.RotationDegrees = new_rot;
+        camera.RotationDegrees = camera_rot;
 
         return;
     }
@@ -122,73 +148,60 @@ public class Main : Node
         cube.Call("spinSide", size, side_select, direction, times);
     }
 
-    public void rotateAround(Spatial obj, Vector3 angle)
-    {
-        Vector3 new_rot = new Vector3(0,0,0);
-
-        new_rot = (angle)/(float)Math.PI/10 + obj.Rotation;
-
-        obj.Rotation = new_rot;
-
-        return;
-    }
-
-    public void rotateObj(Vector3 rotation) 
+    public void changeView(Vector3 rotation, Vector3 axis) 
     {
         if (cube_size == 0)
         {
             return;
         }
+        Vector3 center_point = new Vector3(0, 0, 0);
 
-        rotateAround(cube, rotation);
+        rotateCamera(cameraMain, center_point, axis, rotation.Dot(axis));
         return;
     }
 
     Vector3 zero_rot = new Vector3(0,0,0);
-    Vector3 rot = new Vector3(0,0,0);
+    Vector3 rot_axis = new Vector3(0,0,0);
 
     public override void _Input(InputEvent inputEvent)
     {
+
         if (inputEvent is InputEventKey keyEvent && keyEvent.Pressed)
         {
             if ((KeyList)keyEvent.Scancode == KeyList.W)
             {
-                rot.x = 1;
-                //rotateObj_x(1);
+                camera_rot.x += rotation_increment;
+                rot_axis = x_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.S)
             {
-                rot.x = -1;
-                //rotateObj_x(-1);
+                camera_rot.x -= rotation_increment;
+                rot_axis = x_axis;
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.A)
             {
-                rot.y = 1;
-                //rotateObj_y(1);
+                camera_rot.y += rotation_increment;
+                rot_axis = y_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.D)
             {
-                rot.y = -1;
-                //rotateObj_y(-1);
+                camera_rot.y -= rotation_increment;
+                rot_axis = y_axis;
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.E)
             {
-                rot.z = 1;
-                //rotateObj_z(1);
+                camera_rot.z += rotation_increment;
+                rot_axis = z_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.Q)
             {
-                rot.z = -1;
-                //rotateObj_z(-1);
+                camera_rot.z -= rotation_increment;
+                rot_axis = z_axis;
             }
 
-            rotateObj(rot);
-            
-            // reset rotation
-            rot = zero_rot;
-
+            changeView(camera_rot, rot_axis);
         }
 
         return;

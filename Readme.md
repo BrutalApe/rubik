@@ -6,6 +6,8 @@ Features:
 -    Use Q,E to rotate on Z axis
 
 
+---------------------------------
+
 Activity Log:
 
 12/14/20
@@ -47,3 +49,9 @@ noticed that pieces become rotated slightly when twisting a side
 while cube view is rotated. Can fix that by having the Camera move instead. Also, almost have corners rotating correctly (meaning the 2x2 will soon be functional)
 
 2x2 is functional. Corners working. Working on a hardcoded system for 3x3 edges, so maybe a pattern for all sizes will develop.
+
+12/23/20
+modified background, no longer a flat plane but a godot environment variable
+
+Updated cube rotation; now, camera spins around cube. Still needs fine tuning,
+but eliminates the problem of the cube coordinates being mangled.

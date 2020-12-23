@@ -366,7 +366,7 @@ public class Cube : Spatial
             else if (axis == y_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.z);}
             else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.x);}
 
-            var cm_val = 2;
+            var cm_val = 2*(size-1);
 
             // corners:
             if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
@@ -395,7 +395,7 @@ public class Cube : Spatial
             {
                 if (cur_loc_2.x == size && cur_loc_2.y == size-1)
                 {
-                    if (direction == 1) {move_vec_2 = new Vector2(cm_val, 0);}
+                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, 0);}
                     else                {move_vec_2 = new Vector2(0, cm_val);}
                 }
                 else if (cur_loc_2.x == size-1 && cur_loc_2.y == size)
@@ -403,12 +403,12 @@ public class Cube : Spatial
                     if (direction == 1) {move_vec_2 = new Vector2(0, cm_val);}
                     else                {move_vec_2 = new Vector2(-cm_val, 0);}   
                 }
-                else if (cur_loc_2.x == size && cur_loc_2.y == size)
+                else if (cur_loc_2.x == 1 && cur_loc_2.y == size-1)
                 {
                     if (direction == 1) {move_vec_2 = new Vector2(-cm_val, 0);}
                     else                {move_vec_2 = new Vector2(0, -cm_val);}
                 }
-                else if (cur_loc_2.x == 1 && cur_loc_2.y == size)
+                else if (cur_loc_2.x == size-1 && cur_loc_2.y == 1)
                 {
                     if (direction == 1) {move_vec_2 = new Vector2(0, -cm_val);}
                     else                {move_vec_2 = new Vector2(cm_val, 0);}
