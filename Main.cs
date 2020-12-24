@@ -21,9 +21,12 @@ public class Main : Node
 
     Vector3 edge_select = new Vector3(0, 0, 0);
 
+    Vector3 default_loc = new Vector3(0, 0, 15);
+    //Vector3 default_rot = new Vector3(-1f*(float)Math.PI/6f, (float)Math.PI/4f, 0);
+    Vector3 default_rot = new Vector3(0, 0, 0);
     Vector3 camera_rot = new Vector3(0,0,0);
     // amount to spin camera by
-    float rotation_increment = (float)Math.PI/20f;
+    float rotation_increment = (float)Math.PI/40f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -39,14 +42,12 @@ public class Main : Node
         //cube = addCube(cube_size);        
         cameraMain = addCamera();
         moveCamera(cameraMain, cube_size);
+        rotateCamera(cameraMain, zero_vec, x_axis, -1f*(float)Math.PI/6f);
+        rotateCamera(cameraMain, zero_vec, y_axis, (float)Math.PI/4f);
 
         HUD = addHUD();
 
         // functions
-        
-        Vector3 edge_select = new Vector3(0, 0, 1);
-
-        //twistCube(cube, cube_size, edge_select, 1, 1);
     }
 
     // public void addBackdrop()
@@ -87,18 +88,9 @@ public class Main : Node
     // https://godotengine.org/qa/45609/how-do-you-rotate-spatial-node-around-axis-given-point-space
     public void rotateCamera(Camera camera, Vector3 point, Vector3 axis, float angle)
     {
-        float rot = 0;
-
-        if      (axis == x_axis){rot = angle + camera.Rotation.x;}
-        else if (axis == y_axis){rot = angle + camera.Rotation.y;}
-        else if (axis == z_axis){rot = angle + camera.Rotation.z;}
-        else    {return;}
-
-        GD.Print(angle);
-
         var tStart = point;
         camera.GlobalTranslate (-tStart);
-        camera.Transform = camera.Transform.Rotated(axis, -rot);
+        camera.Transform = camera.Transform.Rotated(axis, -angle);
         camera.GlobalTranslate (tStart);
 
         return;
@@ -106,21 +98,10 @@ public class Main : Node
 
     public void moveCamera(Camera camera, int size)
     {
-        Vector3 new_loc = new Vector3();
-        Vector3 new_rot = new Vector3();
-
         // all values should change for translation depending on size
-        new_loc.x = 10;
-        new_loc.y = (5 * 1.5f);
-        new_loc.z = 10;
-        new_rot.x = -30f;
-        new_rot.y = 180-135f;
-        new_rot.z = 0f;
 
-        camera_rot = new_rot;
-
-        camera.Translate(new_loc);
-        camera.RotationDegrees = camera_rot;
+        camera.GlobalTranslate(default_loc);
+        camera.Rotation = default_rot;
 
         return;
     }
@@ -160,7 +141,7 @@ public class Main : Node
         return;
     }
 
-    Vector3 zero_rot = new Vector3(0,0,0);
+    Vector3 zero_vec = new Vector3(0,0,0);
     Vector3 rot_axis = new Vector3(0,0,0);
 
     public override void _Input(InputEvent inputEvent)
@@ -170,34 +151,34 @@ public class Main : Node
         {
             if ((KeyList)keyEvent.Scancode == KeyList.W)
             {
-                camera_rot.x += rotation_increment;
+                camera_rot.x = rotation_increment;
                 rot_axis = x_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.S)
             {
-                camera_rot.x -= rotation_increment;
+                camera_rot.x = -rotation_increment;
                 rot_axis = x_axis;
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.A)
             {
-                camera_rot.y += rotation_increment;
+                camera_rot.y = rotation_increment;
                 rot_axis = y_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.D)
             {
-                camera_rot.y -= rotation_increment;
+                camera_rot.y = -rotation_increment;
                 rot_axis = y_axis;
             }
             
             if ((KeyList)keyEvent.Scancode == KeyList.E)
             {
-                camera_rot.z += rotation_increment;
+                camera_rot.z = rotation_increment;
                 rot_axis = z_axis;
             }
             if ((KeyList)keyEvent.Scancode == KeyList.Q)
             {
-                camera_rot.z -= rotation_increment;
+                camera_rot.z = -rotation_increment;
                 rot_axis = z_axis;
             }
 
@@ -233,6 +214,9 @@ public class Main : Node
         {
             cube_size = result;
             cube = addCube(cube_size);
+            GD.Print(default_rot);
+            GD.Print(camera_rot);
+
             //cube.Call("makeAxisLines", cube_size);
             return;
         }
@@ -242,6 +226,13 @@ public class Main : Node
             cube_size = 0;
             edge_select = new Vector3(0, 0, 0);
             //cube.Call("removeAxisLines");
+
+            // reset camera too
+            cameraMain.Translation = zero_vec;
+            cameraMain.GlobalTranslate(default_loc);
+            camera_rot = default_rot;
+            cameraMain.Rotation = camera_rot;
+
             RemoveChild(cube);
             return;
         }

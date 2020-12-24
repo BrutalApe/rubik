@@ -55,3 +55,7 @@ modified background, no longer a flat plane but a godot environment variable
 
 Updated cube rotation; now, camera spins around cube. Still needs fine tuning,
 but eliminates the problem of the cube coordinates being mangled.
+
+12/24/20
+fine tuned viewing code, might consider making a series of buttons to choose a corner and orientation, remove all vagueness
+
