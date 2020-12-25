@@ -1,10 +1,12 @@
-Version 0.1
+Version 0.2
 Features: 
 - Cube Generation. Click the numbered button to generate that size of cube. Press the Back button to go back to cube selection. You can then pick an axis, move up or down that axis, and rotate the side.
 -    Use W,S to rotate on X axis
 -    Use A,D to rotate on Y axis
 -    Use Q,E to rotate on Z axis
+-    Press "Reset Cube" to put it back into a solved state.
 
+2x2 and 3x3 fully functional.
 
 ---------------------------------
 
@@ -58,4 +60,6 @@ but eliminates the problem of the cube coordinates being mangled.
 
 12/24/20
 fine tuned viewing code, might consider making a series of buttons to choose a corner and orientation, remove all vagueness
+
+added reset cube button, hard coded 3x3 edge movements
 

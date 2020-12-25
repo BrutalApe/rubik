@@ -21,12 +21,12 @@ public class Main : Node
 
     Vector3 edge_select = new Vector3(0, 0, 0);
 
-    Vector3 default_loc = new Vector3(0, 0, 15);
+    Vector3 default_loc = new Vector3(0, 0, 0);
     //Vector3 default_rot = new Vector3(-1f*(float)Math.PI/6f, (float)Math.PI/4f, 0);
     Vector3 default_rot = new Vector3(0, 0, 0);
     Vector3 camera_rot = new Vector3(0,0,0);
     // amount to spin camera by
-    float rotation_increment = (float)Math.PI/40f;
+    float rotation_increment = (float)Math.PI/20f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -42,8 +42,6 @@ public class Main : Node
         //cube = addCube(cube_size);        
         cameraMain = addCamera();
         moveCamera(cameraMain, cube_size);
-        rotateCamera(cameraMain, zero_vec, x_axis, -1f*(float)Math.PI/6f);
-        rotateCamera(cameraMain, zero_vec, y_axis, (float)Math.PI/4f);
 
         HUD = addHUD();
 
@@ -99,9 +97,13 @@ public class Main : Node
     public void moveCamera(Camera camera, int size)
     {
         // all values should change for translation depending on size
+        default_loc.z = size*5;
 
+        camera.Translation = zero_vec;
         camera.GlobalTranslate(default_loc);
         camera.Rotation = default_rot;
+        rotateCamera(cameraMain, zero_vec, x_axis, 1f*(float)Math.PI/6f);
+        rotateCamera(cameraMain, zero_vec, y_axis, (float)Math.PI-(float)Math.PI/4f);
 
         return;
     }
@@ -213,6 +215,7 @@ public class Main : Node
         if ((result >= 2) && (result <= 7))
         {
             cube_size = result;
+            moveCamera(cameraMain, cube_size);
             cube = addCube(cube_size);
             GD.Print(default_rot);
             GD.Print(camera_rot);
@@ -232,6 +235,7 @@ public class Main : Node
             cameraMain.GlobalTranslate(default_loc);
             camera_rot = default_rot;
             cameraMain.Rotation = camera_rot;
+            moveCamera(cameraMain, cube_size);
 
             RemoveChild(cube);
             return;
@@ -259,6 +263,12 @@ public class Main : Node
             HUD.Call("cubeShow");
 
             return;
+        }
+
+        if (result == 0x105)
+        {
+            RemoveChild(cube);
+            cube = addCube(cube_size);
         }
 
         if ((result >= 0x200) && (result <= 0x201))

@@ -395,24 +395,29 @@ public class Cube : Spatial
             {
                 if (cur_loc_2.x == size && cur_loc_2.y == size-1)
                 {
-                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, 0);}
-                    else                {move_vec_2 = new Vector2(0, cm_val);}
+                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val/2, cm_val/2);}
+                    else                {move_vec_2 = new Vector2(-cm_val/2, -cm_val/2);}
                 }
                 else if (cur_loc_2.x == size-1 && cur_loc_2.y == size)
                 {
-                    if (direction == 1) {move_vec_2 = new Vector2(0, cm_val);}
-                    else                {move_vec_2 = new Vector2(-cm_val, 0);}   
+                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val/2, -cm_val/2);}
+                    else                {move_vec_2 = new Vector2(cm_val/2, -cm_val/2);}   
                 }
                 else if (cur_loc_2.x == 1 && cur_loc_2.y == size-1)
                 {
-                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val, 0);}
-                    else                {move_vec_2 = new Vector2(0, -cm_val);}
+                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, -cm_val/2);}
+                    else                {move_vec_2 = new Vector2(cm_val/2, cm_val/2);}
                 }
                 else if (cur_loc_2.x == size-1 && cur_loc_2.y == 1)
                 {
-                    if (direction == 1) {move_vec_2 = new Vector2(0, -cm_val);}
-                    else                {move_vec_2 = new Vector2(cm_val, 0);}
+                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, cm_val/2);}
+                    else                {move_vec_2 = new Vector2(-cm_val/2, cm_val/2);}
                 }
+            }
+
+            else if ((cur_loc_2.x == cm_val/2) && (cur_loc_2.y == cm_val/2))
+            {
+                move_vec_2 = new Vector2(0, 0);
             }
 
             cur_loc_2 += move_vec_2/2;
@@ -428,9 +433,9 @@ public class Cube : Spatial
             piece.Call("setLocVal", new_loc);
             
             GD.Print(cur_loc);
-            GD.Print("->");
+//            GD.Print("->");
             GD.Print(new_loc);
-            GD.Print("=");
+//            GD.Print("=");
 
             piece.GlobalTranslate(move_vec_3);
             GD.Print(move_vec_3);
