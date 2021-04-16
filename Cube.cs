@@ -341,7 +341,6 @@ public class Cube : Spatial
         GD.Print(spin_piece_list);
         
         // rotation point always center of cube
-        float cent_pnt = space_constant*(size-1);
         Vector3 point = new Vector3(0, 0, 0);
         
         float angle = direction*(float)Math.PI/2f;
@@ -352,6 +351,11 @@ public class Cube : Spatial
 
         Vector2 move_vec_2 = new Vector2(0, 0);
         Vector3 move_vec_3 = new Vector3(0, 0, 0);
+
+        Vector2 vec_1 = new Vector2(1, 1);
+        Vector2 temp_vec_1 = new Vector2(0, 0);
+        Vector2 vec_sz = new Vector2(size, size);
+        Vector2 temp_vec_sz = new Vector2(0, 0);
 
         int piece_cnt = 0;
 
@@ -366,10 +370,19 @@ public class Cube : Spatial
             else if (axis == y_axis) {cur_loc_2 = new Vector2(cur_loc.x, cur_loc.z);}
             else if (axis == z_axis) {cur_loc_2 = new Vector2(cur_loc.y, cur_loc.x);}
 
+            // for 2, 2
+            // for 3, 4
+            // for 4, 6
             var cm_val = 2*(size-1);
 
+            // center (odd)
+            if ((size%2!=0) && (cur_loc_2.x == cm_val/2) && (cur_loc_2.y == cm_val/2))
+            {
+                move_vec_2 = new Vector2(0, 0);
+            }
+
             // corners:
-            if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
+            else if (cur_loc_2.x == 1 && cur_loc_2.y == 1)
             {
                 if (direction == 1) {move_vec_2 = new Vector2(cm_val, 0);}
                 else                {move_vec_2 = new Vector2(0, cm_val);}
@@ -390,34 +403,93 @@ public class Cube : Spatial
                 else                {move_vec_2 = new Vector2(cm_val, 0);}
             }
 
-            // sides (3x3) coords add up to odd number
-            else if ((cur_loc_2.x + cur_loc_2.y)%2 != 0)
-            {
-                if (cur_loc_2.x == size && cur_loc_2.y == size-1)
-                {
-                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val/2, cm_val/2);}
-                    else                {move_vec_2 = new Vector2(-cm_val/2, -cm_val/2);}
-                }
-                else if (cur_loc_2.x == size-1 && cur_loc_2.y == size)
-                {
-                    if (direction == 1) {move_vec_2 = new Vector2(-cm_val/2, -cm_val/2);}
-                    else                {move_vec_2 = new Vector2(cm_val/2, -cm_val/2);}   
-                }
-                else if (cur_loc_2.x == 1 && cur_loc_2.y == size-1)
-                {
-                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, -cm_val/2);}
-                    else                {move_vec_2 = new Vector2(cm_val/2, cm_val/2);}
-                }
-                else if (cur_loc_2.x == size-1 && cur_loc_2.y == 1)
-                {
-                    if (direction == 1) {move_vec_2 = new Vector2(cm_val/2, cm_val/2);}
-                    else                {move_vec_2 = new Vector2(-cm_val/2, cm_val/2);}
-                }
-            }
+            // edges have either x or y at a min/max, but not both
+            // also, distance from closest corner is distance to move in perpendicular dir,
+            // and next closest corner is where it should move that perp dist from.
+            // i.e. (4,2) is 1 away from (4,1) and 2 away from (4,4), so 
+            // a clockwise movement is (-1,2) => (3,4)
+            // a cclockwise movement is (-2,-1) => (2,1)
 
-            else if ((cur_loc_2.x == cm_val/2) && (cur_loc_2.y == cm_val/2))
+            // use corners that share the min/max coordinate
+            // - (4,2) is >3 away from (1,1) and >3 away from (1,4) so don't use those
+            
+            // can also use sin/cos results rounded up to get +/- movements
+            else if (cur_loc_2.x == 1 || cur_loc_2.x == size || cur_loc_2.y == 1 || cur_loc_2.y == size)
             {
-                move_vec_2 = new Vector2(0, 0);
+                // get distance to first corner
+                temp_vec_1 = vec_1 - cur_loc_2;
+                temp_vec_sz = vec_sz - cur_loc_2;
+
+                // cur_loc_2.x == 1, 
+                if (temp_vec_1.x == 0)
+                {
+                    GD.Print("cur_loc_2.x == 1");
+                    GD.Print(cur_loc_2);
+                    move_vec_2.x = cur_loc_2.y - 1;
+                    move_vec_2.y = size - cur_loc_2.y;
+                    if (direction == -1) {move_vec_2.y *=  -1;}
+                }
+
+                // cur_loc_2.y == 1
+                if (temp_vec_1.y == 0)
+                {
+                    GD.Print("cur_loc_2.y == 1");
+                    GD.Print(cur_loc_2);
+                    move_vec_2.x = 1 - cur_loc_2.x;
+                    move_vec_2.y = size - cur_loc_2.x;
+                    if (direction == -1) {move_vec_2.x *=  -1;}
+                }
+
+                // cur_loc_2.x == size
+                if (temp_vec_sz.x == 0)
+                {
+                    GD.Print("cur_loc_2.x == sz");
+                    GD.Print(cur_loc_2);
+                    move_vec_2.x = 1 - cur_loc_2.y;
+                    move_vec_2.y = cur_loc_2.y - size;
+                    if (direction == -1) {move_vec_2.y *=  -1;}
+                }
+
+                // cur_loc_2.y == size
+                if (temp_vec_sz.y == 0)
+                {
+                    GD.Print("cur_loc_2.y == sz");
+                    GD.Print(cur_loc_2);
+                    move_vec_2.x = size - cur_loc_2.x;
+                    move_vec_2.y = 1 - cur_loc_2.x;
+                    if (direction == -1) {move_vec_2.x *=  -1;}
+                }
+
+                // if (cur_loc_2.x == size && cur_loc_2.y == size-1)
+                // {   
+                //     move_vec_2.x = (-cm_val/2);
+                //     if (direction == 1) {move_vec_2.y = cm_val/2;}
+                //     else                {move_vec_2.y = -cm_val/2;}
+                // }
+
+                // else if (cur_loc_2.x == size-1 && cur_loc_2.y == size)
+                // {
+                //     move_vec_2.y = (-cm_val/2);
+                //     if (direction == 1) {move_vec_2.x = -cm_val/2;}
+                //     else                {move_vec_2.x = cm_val/2;}   
+                // }
+                // else if (cur_loc_2.x == 1 && cur_loc_2.y == size-1)
+                // {
+                //     move_vec_2.x = (cm_val/2);
+                //     if (direction == 1) {move_vec_2.y = -cm_val/2;}
+                //     else                {move_vec_2.y = cm_val/2;}
+                // }
+                // else if (cur_loc_2.x == size-1 && cur_loc_2.y == 1)
+                // {
+                //     move_vec_2.y = (cm_val/2);
+                //     if (direction == 1) {move_vec_2.x = cm_val/2;}
+                //     else                {move_vec_2.x = -cm_val/2;}
+                // }
+
+                move_vec_2 *= 2;
+
+                GD.Print("move_vec_2:");
+                GD.Print(move_vec_2);
             }
 
             cur_loc_2 += move_vec_2/2;
@@ -433,13 +505,13 @@ public class Cube : Spatial
             piece.Call("setLocVal", new_loc);
             
             GD.Print(cur_loc);
-//            GD.Print("->");
+            GD.Print("->");
             GD.Print(new_loc);
-//            GD.Print("=");
-
-            piece.GlobalTranslate(move_vec_3);
+            GD.Print("=");
             GD.Print(move_vec_3);
             GD.Print("\n");
+
+            piece.GlobalTranslate(move_vec_3);
 
             
             //GD.Print(piece.Call("getLocVal"));
