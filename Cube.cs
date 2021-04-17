@@ -427,7 +427,7 @@ public class Cube : Spatial
                     GD.Print(cur_loc_2);
                     move_vec_2.x = cur_loc_2.y - 1;
                     move_vec_2.y = size - cur_loc_2.y;
-                    if (direction == -1) {move_vec_2.y *=  -1;}
+                    if (direction == 1) {move_vec_2.y *=  -1;}
                 }
 
                 // cur_loc_2.y == 1
@@ -437,7 +437,7 @@ public class Cube : Spatial
                     GD.Print(cur_loc_2);
                     move_vec_2.x = 1 - cur_loc_2.x;
                     move_vec_2.y = size - cur_loc_2.x;
-                    if (direction == -1) {move_vec_2.x *=  -1;}
+                    if (direction == 1) {move_vec_2.x *=  -1;}
                 }
 
                 // cur_loc_2.x == size
@@ -447,7 +447,7 @@ public class Cube : Spatial
                     GD.Print(cur_loc_2);
                     move_vec_2.x = 1 - cur_loc_2.y;
                     move_vec_2.y = cur_loc_2.y - size;
-                    if (direction == -1) {move_vec_2.y *=  -1;}
+                    if (direction == 1) {move_vec_2.y *=  -1;}
                 }
 
                 // cur_loc_2.y == size
@@ -457,7 +457,7 @@ public class Cube : Spatial
                     GD.Print(cur_loc_2);
                     move_vec_2.x = size - cur_loc_2.x;
                     move_vec_2.y = 1 - cur_loc_2.x;
-                    if (direction == -1) {move_vec_2.x *=  -1;}
+                    if (direction == 1) {move_vec_2.x *=  -1;}
                 }
 
                 // if (cur_loc_2.x == size && cur_loc_2.y == size-1)
