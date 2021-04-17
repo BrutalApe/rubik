@@ -445,8 +445,8 @@ public class Cube : Spatial
                 {
                     GD.Print("cur_loc_2.x == sz");
                     GD.Print(cur_loc_2);
-                    move_vec_2.x = 1 - cur_loc_2.y;
-                    move_vec_2.y = cur_loc_2.y - size;
+                    move_vec_2.x = cur_loc_2.y - size;
+                    move_vec_2.y = 1 - cur_loc_2.y;
                     if (direction == 1) {move_vec_2.y *=  -1;}
                 }
 

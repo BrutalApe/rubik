@@ -63,9 +63,22 @@ fine tuned viewing code, might consider making a series of buttons to choose a c
 
 added reset cube button, hard coded 3x3 edge movements
 
-3/25/20
+3/25/21
 Just testing 3x3 for now; Most of the edges are bad. In fact, only 1 is correct.
 NO  1,2 -> 0,3 (-2,2)   -- move_vec_2 = (2,-2)
 NO  2,1 -> 2,3 (0,4)    -- move_vec_2 = (4,0)
 NO  2,3 -> 0,4 (-4,2)   -- move_vec_2 = (2,-4)
 YES 3,2 -> 2,3 (-2,2)   -- move_vec_2 = (2,-2)
+
+4/17/21
+correct algorithm for 3x3 pieces, so middle edge, corners, and center work fine. 
+on 4x4, initial clockwise rotation, pieces that go wrong are:
+1,3,4 -> 1,2,2 (4,3), (-4,-2)
+1,2,4 -> 1,0,3 (4,2), (-2,-4)
+
+1,2,2 -> 1,4,3
+1,2,3 -> 1,4,4
+1,3,2 -> 1,4,4
+1,3,3 -> 1,4,5
+
+to go counterclockwise, inverse reciprocal of coordinates needed.
