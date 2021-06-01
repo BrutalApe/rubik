@@ -1,0 +1,8 @@
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.csprojAssemblyReference.cache
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.AssemblyInfoInputs.cache
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.AssemblyInfo.cs
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.csproj.CoreCompileInputs.cache
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\bin\Debug\HereToSlay.dll
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\bin\Debug\HereToSlay.pdb
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.dll
+C:\Users\scott\Documents\godotProjects\HereToSlay\.mono\temp\obj\Debug\HereToSlay.pdb

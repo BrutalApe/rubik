@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\scott\\Documents\\godotProjects\\rubik\\rubik.csproj",
-      "projectName": "rubik",
-      "projectPath": "C:\\Users\\scott\\Documents\\godotProjects\\rubik\\rubik.csproj",
+      "projectUniqueName": "C:\\Users\\scott\\Documents\\godotProjects\\HereToSlay\\HereToSlay.csproj",
+      "projectName": "HereToSlay",
+      "projectPath": "C:\\Users\\scott\\Documents\\godotProjects\\HereToSlay\\HereToSlay.csproj",
       "packagesPath": "C:\\Users\\scott\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\scott\\Documents\\godotProjects\\rubik\\.mono\\temp\\obj\\",
+      "outputPath": "C:\\Users\\scott\\Documents\\godotProjects\\HereToSlay\\.mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
