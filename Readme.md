@@ -6,8 +6,6 @@ Features:
 -    Use Q,E to rotate on Z axis
 -    Press "Reset Cube" to put it back into a solved state.
 
-Taking the old rubik code and repurposing that, instead of starting from scratch.
-
 2x2 and 3x3 fully functional.
 
 ---------------------------------
@@ -68,7 +66,11 @@ added reset cube button, hard coded 3x3 edge movements
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 3/25/20
+=======
+3/25/21
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
 3/25/21
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
@@ -86,8 +88,11 @@ YES 3,2 -> 2,3 (-2,2)   -- move_vec_2 = (2,-2)
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 561fdd2 (fixed edges going clockwise)
 =======
+=======
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
@@ -106,6 +111,10 @@ on 4x4, initial clockwise rotation, pieces that go wrong are:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+to go counterclockwise, inverse reciprocal of coordinates needed.
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
+=======
 to go counterclockwise, inverse reciprocal of coordinates needed.
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
