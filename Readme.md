@@ -62,8 +62,6 @@ but eliminates the problem of the cube coordinates being mangled.
 fine tuned viewing code, might consider making a series of buttons to choose a corner and orientation, remove all vagueness
 
 added reset cube button, hard coded 3x3 edge movements
-
-3/25/21
 Just testing 3x3 for now; Most of the edges are bad. In fact, only 1 is correct.
 NO  1,2 -> 0,3 (-2,2)   -- move_vec_2 = (2,-2)
 NO  2,1 -> 2,3 (0,4)    -- move_vec_2 = (4,0)
