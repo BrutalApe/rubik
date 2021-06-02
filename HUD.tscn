@@ -4,3 +4,4 @@
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 2 )
+

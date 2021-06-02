@@ -1,226 +1,36 @@
 using Godot;
 using System;
 
-enum buttons{
-    Hero = 2,
-    Item = 3,
-    Magic = 4,
-    Instant = 5,
-    Leader = 6,
-    Monster = 7,
-    Back = 10,
-}
-
-enum card_hero {
-	Napping_Nibbles = 1,
-	Tipsy_Tootie = 2,
-	Lucky_Bucky = 3,
-	Peanut = 4,
-	Mellow_Dee = 5,
-	Greedy_Cheeks = 6,
-	Fuzzy_Cheeks = 7,
-	Dodgy_Dealer = 8,
-	Tough_Teddy = 9,
-	Heavy_Bear = 10,
-	Fury_Knuckle = 11,
-	Beary_Wise = 12,
-	Bear_Claw = 13,
-	Bad_Axe = 14,
-	Pan_Chucks = 15,
-	Qi_Bear = 16,
-	Holy_Curselifter = 17,
-	Radiant_Horn = 18,
-	Wise_Shield = 19,
-	Guiding_Light = 20,
-	Mighty_Blade = 21,
-	Iron_Resolve = 22,
-	Vibrant_Glow = 23,
-	Calming_Voice = 24,
-	Lookie_Rookie = 25,
-	Sharp_Fox = 26,
-	Hook = 27,
-	Bullseye = 28,
-	Wildshot = 29,
-	Quick_Draw = 30,
-	Serious_Grey = 31,
-	Wily_Red = 32,
-	Slippery_Paws = 33,
-	Sly_Pickings = 34,
-	Plundering_Puma = 35,
-	Smooth_Mimimeow = 36,
-	Silent_Shadow = 37,
-	Shurikitty = 38,
-	Kit_Napper = 39,
-	Meowzio = 40,
-	Bun_Bun = 41,
-	Buttons = 42,
-	Snowball = 43,
-	Hopper = 44,
-	Spooky = 45,
-	Fluffy = 46,
-	Wiggles = 47,
-	Whiskers = 48,
-	Looting_Lupo = 49,
-	Wolfgang_Pack = 50,
-	Silent_Shield = 51,
-	Critical_Fang = 52,
-	Agile_Dagger = 53,
-	Blinding_Blade = 54,
-	Tenacious_Timber = 55,
-	Hardened_Hunter = 56,
-	Big_Buckley = 57,
-	Stagguard = 58,
-	Doe_Fallow = 59,
-	Maegisty = 60,
-	Glowing_Antler = 61,
-	Majestelk = 62,
-	Buck_Omens = 63,
-	Magus_Moose = 64,
-    First = 1,
-    Last = 64,
-};
-
-enum card_magic {
-    Call_to_the_Fallen = 65,
-	Critical_Boost = 66,
-	Destructive_Spell = 67,
-	Enchanted_Spell = 68,
-	Entangling_Trap = 69,
-	Forced_Exchange = 70,
-	Forceful_Winds = 71,
-	Winds_of_Change = 72,
-	Rapid_Refresh = 73,
-	Beast_Call = 74,
-    First = 65,
-    Last = 74,
-};
-
-enum card_item {
-	Bard = 75,
-	Fighter = 76,
-	Guardian = 77,
-	Ranger = 78,
-	Thief = 79,
-	Wizard = 80,
-	Warrior = 81,
-	Druid = 82,
-	Decoy_Doll = 83,
-	Particularly_Rusty_Coin = 84,
-	Really_Big_Ring = 85,
-	Even_Bigger_Ring = 86,
-	Temporal_Hourglass = 87,
-	Bottomless_Bag = 88,
-	Curse_of_the_Snakes_Eyes = 89,
-	Sealing_Key = 90,
-	Suspiciously_Shiny_Coin = 91,
-	Soul_Tether = 92,
-	Cursed_Glove = 93,
-    First = 75,
-    Last = 93,
-};
-
-enum card_instant {
-	Challenge = 94,
-	Druid_Challenge = 95,
-	Warrior_Challenge = 96,
-	Mod_p4 = 97,
-	Mod_p3n1 = 98,
-	Mod_p2n2 = 99,
-	Mod_p1n3 = 100,
-	Mod_n4 = 101,
-	Mod_p1n1_S = 102,
-	Mod_p4_S = 103,
-	Mod_n4_S = 104,
-	Mod_p2n1_S = 105,
-    First = 94,
-    Last = 105,
-};
-
-enum card_party_leader {
-	The_Charismatic_Song = 106,
-	The_Fist_of_Reason = 107,
-	The_Protecting_Horn = 108,
-	The_Divine_Arrow = 109,
-	The_Shadow_Claw = 110,
-	The_Cloaked_Sage = 111,
-	The_Piercing_Howl = 112,
-	The_Noble_Shaman = 113,
-    First = 106,
-    Last = 113,
-};
-
-enum card_monster {
-	Dracos = 114,
-	Arctic_Aries = 115,
-	Terratuga = 116,
-	Abyss_Queen = 117,
-	Bloodwing = 118,
-	Crowned_Serpent = 119,
-	Dark_Dragon_King = 120,
-	Titan_Wyvern = 121,
-	Rex_Major = 122,
-	Malamammoth = 123,
-	Warworn_Owlbear = 124,
-	Orthus = 125,
-	Anuran_Cauldron = 126,
-	Corrupted_Sabretooth = 127,
-	Mega_Slime = 128,
-	Muscipula_Rex = 129,
-	Feral_Dragon = 130,
-    First = 114,
-    Last = 130,
-};
-
 public class HUD : CanvasLayer
 {
-    string[] card_names = {"NULL",
-    "Napping Nibbles","Tipsy Tootie","Lucky Bucky","Peanut","Mellow Dee","Greedy Cheeks","Fuzzy Cheeks","Dodgy Dealer",
-	"Tough Teddy","Heavy Bear","Fury Knuckle","Beary Wise","Bear Claw","Bad Axe","Pan Chucks","Qi Bear",
-	"Holy Curselifter","Radiant Horn","Wise Shield","Guiding Light","Mighty Blade","Iron Resolve","Vibrant Glow","Calming Voice",
-	"Lookie Rookie","Sharp Fox","Hook","Bullseye","Wildshot","Quick Draw","Serious Grey","Wily Red",
-	"Slippery Paws","Sly Pickings","Plundering Puma","Smooth Mimimeow","Silent Shadow","Shurikitty","Kit Napper","Meowzio",
-	"Bun Bun","Buttons","Snowball","Hopper","Spooky","Fluffy","Wiggles","Whiskers",
-	"Looting Lupo","Wolfgang Pack","Silent Shield","Critical Fang","Agile Dagger","Blinding Blade","Tenacious Timber","Hardened Hunter",
-	"Big Buckley","Stagguard","Doe Fallow","Maegisty","Glowing Antler","Majestelk","Buck Omens","Magus Moose",
-	
-    "Call to the Fallen","Critical Boost","Destructive Spell","Enchanted Spell","Entangling Trap","Forced Exchange","Forceful Winds","Winds of Change","Rapid Refresh","Beast Call",
-	
-    "Bard","Fighter","Guardian","Ranger","Thief","Wizard","Warrior","Druid",
-	"Decoy Doll","Particularly Rusty Coin","Really Big Ring","Even Bigger Ring","Temporal Hourglass","Bottomless Bag",
-	"Curse of the Snakes Eyes","Sealing Key","Suspiciously Shiny Coin","Soul Tether","Cursed Glove",
-    
-    "Challenge","Druid Challenge","Warrior Challenge",
-	"Mod p4","Mod p3n1","Mod p2n2","Mod p1n3","Mod n4","Mod p1n1 S","Mod p4 S","Mod n4 S","Mod p2n1 S",
-	
-    "The Charismatic Song","The Fist of Reason","The Protecting Horn","The Divine Arrow","The Shadow Claw","The Cloaked Sage","The Piercing Howl","The Noble Shaman",
-	
-    "Dracos","Arctic Aries","Terratuga","Abyss Queen","Bloodwing","Crowned Serpent","Dark Dragon King","Titan Wyvern","Rex Major","Malamammoth","Warworn Owlbear","Orthus","Anuran Cauldron","Corrupted Sabretooth","Mega Slime","Muscipula Rex","Feral Dragon"
-    };
+    public Button b2 = new Button();
+    public Button b3 = new Button();
+    public Button b4 = new Button();
+    public Button b5 = new Button();
+    public Button b6 = new Button();
+    public Button b7 = new Button();
 
-    public Button hero = new Button();
-    public Button item = new Button();
-    public Button magic = new Button();
-    public Button instant = new Button();
-    public Button leader = new Button();
-    public Button monster = new Button();
+    public Button turn_c_btn = new Button();
+    public Button turn_cc_btn = new Button();
+    public Button up_axis_btn = new Button();
+    public Button down_axis_btn = new Button();
+
+    public Button x_axis_btn = new Button();
+    public Button y_axis_btn = new Button();
+    public Button z_axis_btn = new Button();
     public Button back_btn = new Button();
 
-    public OptionButton hero_choice = new OptionButton();
-    public OptionButton item_choice = new OptionButton();
-    public OptionButton magic_choice = new OptionButton();
-    public OptionButton instant_choice = new OptionButton();
-    public OptionButton leader_choice = new OptionButton();
-    public OptionButton monster_choice = new OptionButton();
+    public Button reset_cube_btn = new Button();
 
     public RichTextLabel menu_text = new RichTextLabel();
 
-    Vector2 tb_range_1 = new Vector2(0.2f, 0.3f);
-    Vector2 tb_range_2 = new Vector2(0.4f, 0.5f);
-    Vector2 tb_range_3 = new Vector2(0.6f, 0.7f);
-    Vector2 tb_range_4 = new Vector2(0.8f, 0.9f);
-    Vector2 lr_range_1 = new Vector2(0.1f, 0.3f);
-    Vector2 lr_range_2 = new Vector2(0.4f, 0.6f);
-    Vector2 lr_range_3 = new Vector2(0.7f, 0.9f);
+    Vector2 top_bottom_range_1 = new Vector2(0.2f, 0.3f);
+    Vector2 top_bottom_range_2 = new Vector2(0.4f, 0.5f);
+    Vector2 top_bottom_range_3 = new Vector2(0.6f, 0.7f);
+    Vector2 top_bottom_range_4 = new Vector2(0.8f, 0.9f);
+    Vector2 left_right_range_1 = new Vector2(0.1f, 0.3f);
+    Vector2 left_right_range_2 = new Vector2(0.4f, 0.6f);
+    Vector2 left_right_range_3 = new Vector2(0.7f, 0.9f);
 
 
     // Called when the node enters the scene tree for the first time.
@@ -228,23 +38,27 @@ public class HUD : CanvasLayer
     {
         FollowViewportEnable = true;
 
-        hero_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_hero.First, (int)card_hero.Last);
-        item_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_item.First, (int)card_item.Last);
-        magic_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_magic.First, (int)card_magic.Last);
-        instant_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_instant.First, (int)card_instant.Last);
-        leader_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_party_leader.First, (int)card_party_leader.Last);
-        monster_choice = addOptionButton(tb_range_3, lr_range_2, (int)card_monster.First, (int)card_monster.Last);
+        b2 = addButton("2", top_bottom_range_3, left_right_range_1);
+        b3 = addButton("3", top_bottom_range_3, left_right_range_2);
+        b4 = addButton("4", top_bottom_range_3, left_right_range_3);
+        b5 = addButton("5", top_bottom_range_4, left_right_range_1);
+        b6 = addButton("6", top_bottom_range_4, left_right_range_2);
+        b7 = addButton("7", top_bottom_range_4, left_right_range_3); 
 
-        back_btn = addButton("Back...", tb_range_1, lr_range_1);
+        up_axis_btn = addButton("Move up axis", top_bottom_range_2, left_right_range_1);
+        down_axis_btn = addButton("Move down axis", top_bottom_range_3, left_right_range_1);
 
-        hero = addButton("hero", tb_range_3, lr_range_1);
-        item = addButton("item", tb_range_3, lr_range_2);
-        magic = addButton("magic", tb_range_3, lr_range_3);
-        instant = addButton("instant", tb_range_4, lr_range_1);
-        leader = addButton("leader", tb_range_4, lr_range_2);
-        monster = addButton("monster", tb_range_4, lr_range_3);
+        turn_c_btn = addButton("Turn clockwise", top_bottom_range_2, left_right_range_3);
+        turn_cc_btn = addButton("Turn counter-clockwise", top_bottom_range_3, left_right_range_3);
 
-        menu_text = addText("Pick a card category", tb_range_2, lr_range_2);
+        x_axis_btn = addButton("X-Axis", top_bottom_range_4, left_right_range_1);
+        y_axis_btn = addButton("Y-Axis", top_bottom_range_4, left_right_range_2);
+        z_axis_btn = addButton("Z-Axis", top_bottom_range_4, left_right_range_3);
+        back_btn = addButton("Back", top_bottom_range_1, left_right_range_1);
+
+        reset_cube_btn = addButton("Reset Cube", top_bottom_range_1, left_right_range_3);
+
+        menu_text = addText("Pick a Cube size", top_bottom_range_2, left_right_range_2);
     }
 
     public RichTextLabel addText(string text, Vector2 t_b, Vector2 l_r)
@@ -273,52 +87,69 @@ public class HUD : CanvasLayer
         return btn;
     }
 
-    public OptionButton addOptionButton(Vector2 t_b, Vector2 l_r, int first_id, int last_id)
+    public void cubeHide()
     {
-        OptionButton o_btn = new OptionButton();
-        o_btn.AnchorTop = t_b.x;
-        o_btn.AnchorBottom = t_b.y;
-        o_btn.AnchorLeft = l_r.x;
-        o_btn.AnchorRight = l_r.y;
+        turn_c_btn.Hide();
+        turn_cc_btn.Hide();
+        up_axis_btn.Hide();
+        down_axis_btn.Hide();
+        x_axis_btn.Hide();
+        y_axis_btn.Hide();
+        z_axis_btn.Hide();
+        back_btn.Hide();
+        reset_cube_btn.Hide();
+        return;
+    }
 
-        for (int id = first_id; id <= last_id; id++) {o_btn.AddItem(card_names[id], id);}
-        AddChild(o_btn);
-
-        return o_btn;
+    public void cubeShow()
+    {
+        turn_c_btn.Show();
+        turn_cc_btn.Show();
+        up_axis_btn.Show();
+        down_axis_btn.Show();
+        x_axis_btn.Show();
+        y_axis_btn.Show();
+        z_axis_btn.Show();
+        back_btn.Show();
+        reset_cube_btn.Show();
+        return;
     }
 
     public void menuHide()
     {
-        hero.Hide();
-        item.Hide();
-        magic.Hide();
-        instant.Hide();
-        leader.Hide();
-        monster.Hide();
+        b2.Hide();
+        b3.Hide();
+        b4.Hide();
+        b5.Hide();
+        b6.Hide();
+        b7.Hide();
         menu_text.Hide();
-        back_btn.Show();
         return;
     }
 
     public void menuShow()
     {
-        hero.Show();
-        item.Show();
-        magic.Show();
-        instant.Show();
-        leader.Show();
-        monster.Show();
+        b2.Show();
+        b3.Show();
+        b4.Show();
+        b5.Show();
+        b6.Show();
+        b7.Show();
         menu_text.Show();
-        
-        back_btn.Hide();
+        return;
+    }
 
-        hero_choice.Hide();
-        item_choice.Hide();
-        magic_choice.Hide();
-        instant_choice.Hide();
-        leader_choice.Hide();
-        monster_choice.Hide();
+    public void menuView()
+    {
+        cubeHide();
+        menuShow();
+        return;
+    }
 
+    public void cubeView()
+    {
+        menuHide();
+        cubeShow();
         return;
     }
 
@@ -326,17 +157,93 @@ public class HUD : CanvasLayer
     {
         int response_value = 0;
 
-        if (hero.Pressed == true)       {hero_choice.Show();    response_value = (int)buttons.Hero;}
-        if (item.Pressed == true)       {item_choice.Show();    response_value = (int)buttons.Item;}
-        if (magic.Pressed == true)      {magic_choice.Show();   response_value = (int)buttons.Magic;}
-        if (instant.Pressed == true)    {instant_choice.Show(); response_value = (int)buttons.Instant;}
-        if (leader.Pressed == true)     {leader_choice.Show();  response_value = (int)buttons.Leader;}
-        if (monster.Pressed == true)    {monster_choice.Show(); response_value = (int)buttons.Monster;}
-        
+        if (b2.Pressed == true)
+        {     
+            cubeView();
+            response_value = 2;  
+        }
+
+        if (b3.Pressed == true)
+        {
+            cubeView();
+            response_value = 3;
+        }
+
+        if (b4.Pressed == true)
+        {
+            cubeView();
+            response_value = 4; 
+        }
+
+        if (b5.Pressed == true)
+        {
+            cubeView();
+            response_value = 5;        
+        }
+
+        if (b6.Pressed == true)
+        {
+            cubeView();
+            response_value = 6;        
+        }
+
+        if (b7.Pressed == true)
+        {
+            cubeView();
+            response_value = 7;        
+        }
+
+        if (x_axis_btn.Pressed == true)
+        {
+            response_value = 0x100;
+            cubeHide();
+        }
+
+        if (y_axis_btn.Pressed == true)
+        {
+            response_value = 0x101;
+            cubeHide();
+        }
+
+        if (z_axis_btn.Pressed == true)
+        {
+            response_value = 0x102;
+            cubeHide();
+        }
+
+        if (up_axis_btn.Pressed == true)
+        {
+            response_value = 0x103;
+            cubeHide();
+        }
+
+        if (down_axis_btn.Pressed == true)
+        {
+            response_value = 0x104;
+            cubeHide();
+        }
+
+        if (reset_cube_btn.Pressed == true)
+        {
+            response_value = 0x105;
+        }
+
+        if (turn_c_btn.Pressed == true)
+        {
+            response_value = 0x200;
+            cubeHide();
+        }
+
+        if (turn_cc_btn.Pressed == true)
+        {
+            response_value = 0x201;
+            cubeHide();
+        }
+
         if (back_btn.Pressed == true)
         {
-            menuShow();
-            response_value = (int)buttons.Back;
+            menuView();
+            response_value = 10;
         }
 
         return response_value;

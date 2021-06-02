@@ -1,12 +1,17 @@
-5/27/21
-Version 0.1
-This will be a Here To Slay analysis tool.
-I wanted a way to determine the strengths of different hands and combinations of cards,
-so I'm designing this code to help with that.
+Version 0.2
+Features: 
+- Cube Generation. Click the numbered button to generate that size of cube. Press the Back button to go back to cube selection. You can then pick an axis, move up or down that axis, and rotate the side.
+-    Use W,S to rotate on X axis
+-    Use A,D to rotate on Y axis
+-    Use Q,E to rotate on Z axis
+-    Press "Reset Cube" to put it back into a solved state.
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 Taking the old rubik code and repurposing that, instead of starting from scratch.
 =======
+=======
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 2x2 and 3x3 fully functional.
 
 ---------------------------------
@@ -64,10 +69,30 @@ fine tuned viewing code, might consider making a series of buttons to choose a c
 
 added reset cube button, hard coded 3x3 edge movements
 
+<<<<<<< HEAD
 3/25/20
+=======
+3/25/21
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 Just testing 3x3 for now; Most of the edges are bad. In fact, only 1 is correct.
 NO  1,2 -> 0,3 (-2,2)   -- move_vec_2 = (2,-2)
 NO  2,1 -> 2,3 (0,4)    -- move_vec_2 = (4,0)
 NO  2,3 -> 0,4 (-4,2)   -- move_vec_2 = (2,-4)
 YES 3,2 -> 2,3 (-2,2)   -- move_vec_2 = (2,-2)
+<<<<<<< HEAD
 >>>>>>> parent of 561fdd2 (fixed edges going clockwise)
+=======
+
+4/17/21
+correct algorithm for 3x3 pieces, so middle edge, corners, and center work fine. 
+on 4x4, initial clockwise rotation, pieces that go wrong are:
+1,3,4 -> 1,2,2 (4,3), (-4,-2)
+1,2,4 -> 1,0,3 (4,2), (-2,-4)
+
+1,2,2 -> 1,4,3
+1,2,3 -> 1,4,4
+1,3,2 -> 1,4,4
+1,3,3 -> 1,4,5
+
+to go counterclockwise, inverse reciprocal of coordinates needed.
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
