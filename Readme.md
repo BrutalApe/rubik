@@ -8,8 +8,11 @@ Features:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Taking the old rubik code and repurposing that, instead of starting from scratch.
 =======
+=======
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 2x2 and 3x3 fully functional.
@@ -70,7 +73,11 @@ fine tuned viewing code, might consider making a series of buttons to choose a c
 added reset cube button, hard coded 3x3 edge movements
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 3/25/20
+=======
+3/25/21
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
 3/25/21
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
@@ -80,8 +87,11 @@ NO  2,1 -> 2,3 (0,4)    -- move_vec_2 = (4,0)
 NO  2,3 -> 0,4 (-4,2)   -- move_vec_2 = (2,-4)
 YES 3,2 -> 2,3 (-2,2)   -- move_vec_2 = (2,-2)
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> parent of 561fdd2 (fixed edges going clockwise)
 =======
+=======
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 
 4/17/21
 correct algorithm for 3x3 pieces, so middle edge, corners, and center work fine. 
@@ -94,5 +104,9 @@ on 4x4, initial clockwise rotation, pieces that go wrong are:
 1,3,2 -> 1,4,4
 1,3,3 -> 1,4,5
 
+<<<<<<< HEAD
+to go counterclockwise, inverse reciprocal of coordinates needed.
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
+=======
 to go counterclockwise, inverse reciprocal of coordinates needed.
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)

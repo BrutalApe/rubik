@@ -1,9 +1,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 {"res://HUD.cs":{"modified_time":"1622576956","class":{"namespace":"","class_name":"HUD","nested":false}},"res://Main.cs":{"modified_time":"1622576717","class":{"namespace":"","class_name":"Main","nested":false}}}
 =======
 {"res://SideSelect.cs":{"modified_time":"1607883577","class":{"namespace":"","class_name":"SideSelect","nested":false}},"res://CameraMain.cs":{"modified_time":"1607974456","class":{"namespace":"","class_name":"CameraMain","nested":false}},"res://Piece.cs":{"modified_time":"1608334313","class":{"namespace":"","class_name":"Piece","nested":false}},"res://HUD.cs":{"modified_time":"1608843042","class":{"namespace":"","class_name":"HUD","nested":false}},"res://Main.cs":{"modified_time":"1608843208","class":{"namespace":"","class_name":"Main","nested":false}},"res://Cube.cs":{"modified_time":"1618661675","class":{"namespace":"","class_name":"Cube","nested":false}}}
 >>>>>>> parent of 561fdd2 (fixed edges going clockwise)
+=======
+{"res://SideSelect.cs":{"modified_time":"1607883577","class":{"namespace":"","class_name":"SideSelect","nested":false}},"res://CameraMain.cs":{"modified_time":"1607974456","class":{"namespace":"","class_name":"CameraMain","nested":false}},"res://Piece.cs":{"modified_time":"1608334313","class":{"namespace":"","class_name":"Piece","nested":false}},"res://HUD.cs":{"modified_time":"1608843042","class":{"namespace":"","class_name":"HUD","nested":false}},"res://Main.cs":{"modified_time":"1608843208","class":{"namespace":"","class_name":"Main","nested":false}},"res://Cube.cs":{"modified_time":"1618675059","class":{"namespace":"","class_name":"Cube","nested":false}}}
+>>>>>>> parent of cfb6b23 (HereToSlay initial commit)
 =======
 {"res://SideSelect.cs":{"modified_time":"1607883577","class":{"namespace":"","class_name":"SideSelect","nested":false}},"res://CameraMain.cs":{"modified_time":"1607974456","class":{"namespace":"","class_name":"CameraMain","nested":false}},"res://Piece.cs":{"modified_time":"1608334313","class":{"namespace":"","class_name":"Piece","nested":false}},"res://HUD.cs":{"modified_time":"1608843042","class":{"namespace":"","class_name":"HUD","nested":false}},"res://Main.cs":{"modified_time":"1608843208","class":{"namespace":"","class_name":"Main","nested":false}},"res://Cube.cs":{"modified_time":"1618675059","class":{"namespace":"","class_name":"Cube","nested":false}}}
 >>>>>>> parent of cfb6b23 (HereToSlay initial commit)
